@@ -67,4 +67,6 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+    // added after project creation
+    implementation(libs.androidx.navigation.compose)
 }
