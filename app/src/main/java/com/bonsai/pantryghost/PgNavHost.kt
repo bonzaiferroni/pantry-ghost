@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import com.bonsai.pantryghost.ui.HomeScreen
 
 @Composable
-fun AppNavHost(
+fun PgNavHost(
     navController: NavHostController,
     drawerState: DrawerState,
 ) {

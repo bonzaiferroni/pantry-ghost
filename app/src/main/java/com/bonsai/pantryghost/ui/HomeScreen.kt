@@ -17,13 +17,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bonsai.pantryghost.ui.common.PgScaffold
+import com.bonsai.pantryghost.utils.paddingMedium
 import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(drawerState: DrawerState) {
-    PgScaffold(drawerState) {
-        Column(modifier= Modifier.padding(16.dp)) {
-            Text("Home")
+    PgScaffold(
+        title = "Home",
+        drawerState = drawerState
+    ) {
+        Column(modifier= Modifier.padding(paddingMedium())) {
+            Text("Hello home")
         }
     }
 }

@@ -30,16 +30,20 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.bonsai.pantryghost.utils.gapLarge
+import com.bonsai.pantryghost.utils.paddingMedium
+import com.bonsai.pantryghost.utils.paddingSmall
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainCompose(
+fun PgAppDrawer(
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
 ) {
@@ -64,7 +68,7 @@ fun MainCompose(
             }
         }
     ) {
-        AppNavHost(
+        PgNavHost(
             navController = navController,
             drawerState = drawerState
         )
@@ -92,11 +96,11 @@ fun AppDrawerContent(
                 Image(
                     painter = painterResource(id = R.drawable.ic_launcher_foreground),
                     contentDescription = "Main app icon",
-                    modifier = Modifier.size(150.dp)
+                    modifier = Modifier.size(dimensionResource(R.dimen.app_icon_size))
                 )
                 // column of options to pick from for user
                 LazyColumn(
-                    modifier = Modifier.padding(horizontal = 8.dp),
+                    modifier = Modifier.padding(horizontal = paddingSmall()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // generates on demand the required composables
@@ -131,23 +135,21 @@ fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: NavRoute) -> Unit)
     // making surface clickable causes to show the appropriate splash animation
     Surface(
         color = MaterialTheme.colorScheme.onPrimary,
-        modifier = Modifier.width(150.dp),
+        modifier = Modifier.width(dimensionResource(R.dimen.app_icon_size)),
         onClick = { onClick(item.drawerOption) },
         shape = RoundedCornerShape(50),
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(16.dp)
+            modifier = Modifier.padding(paddingMedium())
         ) {
             Icon(
                 painter = painterResource(id = item.drawableId),
                 contentDescription = stringResource(id = item.descriptionId),
-                modifier = Modifier
-                    .size(24.dp)
+                modifier = Modifier.size(dimensionResource(R.dimen.icon_size_medium))
             )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(gapLarge()))
             Text(
                 text = stringResource(id = item.title),
                 style = MaterialTheme.typography.bodyLarge,

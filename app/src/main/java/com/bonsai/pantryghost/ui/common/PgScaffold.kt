@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PgScaffold(
+    title: String,
     drawerState: DrawerState,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -30,7 +31,7 @@ fun PgScaffold(
             // to run the animation independently
             val coroutineScope = rememberCoroutineScope()
             TopAppBar(
-                title = {}, // no title
+                title = { Text(title) },
                 navigationIcon = {
                     IconButton(onClick = {
                         coroutineScope.launch {
