@@ -15,40 +15,15 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.bonsai.pantryghost.ui.common.PgScaffold
 import kotlinx.coroutines.launch
 
-/// passing the drawer state from the main parent composable
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(drawerState: DrawerState) {
-    Scaffold(
-        topBar = {
-            // to run the animation independently
-            val coroutineScope = rememberCoroutineScope()
-            TopAppBar(
-                title = {}, // no title
-                navigationIcon = {
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            // opens drawer
-                            drawerState.open()
-                        }
-                    }) {
-                        Icon(
-                            // internal hamburger menu
-                            Icons.Rounded.Menu,
-                            contentDescription = "MenuButton"
-                        )
-                    }
-                },
-            )
-        }
-    ) { paddingValues ->
-        Surface {
-            // padding of the scaffold is enforced to be used
-            Column(modifier = Modifier.padding(paddingValues)) {
-                Text("Home")
-            }
+    PgScaffold(drawerState) {
+        Column(modifier= Modifier.padding(16.dp)) {
+            Text("Home")
         }
     }
 }

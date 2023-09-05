@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
@@ -36,13 +35,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.bonsai.pantryghost.ui.theme.PantryGhostTheme
 import kotlinx.coroutines.launch
 
-/// initial remember statements to initialize the navigation and drawer
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainCompose(
     navController: NavHostController = rememberNavController(),
@@ -54,53 +49,39 @@ fun MainCompose(
             AppDrawerContent(
                 drawerState = drawerState,
                 menuItems = DrawerParams.drawerButtons,
-                defaultPick = MainNavOption.HomeScreen
+                defaultPick = NavRoute.Home
             ) { onUserPickedOption ->
                 // when user picks, the path - navigates to new one
                 when (onUserPickedOption) {
-                    MainNavOption.HomeScreen -> {
-                        navController.navigate(onUserPickedOption.name) {
-                            // pops the route to root and places new screen
-                            popUpTo(NavRoutes.MainRoute.name)
-                        }
+                    NavRoute.Home -> {
+                        navController.navigate(onUserPickedOption.name)
                     }
 
-                    MainNavOption.SettingsScreen -> {
-                        navController.navigate(onUserPickedOption.name) {
-                            popUpTo(NavRoutes.MainRoute.name)
-                        }
+                    NavRoute.Settings -> {
+                        navController.navigate(onUserPickedOption.name)
                     }
 
-                    MainNavOption.AboutScreen -> {
-                        navController.navigate(onUserPickedOption.name) {
-                            popUpTo(NavRoutes.MainRoute.name)
-                        }
+                    NavRoute.About -> {
+                        navController.navigate(onUserPickedOption.name)
                     }
                 }
             }
         }
     ) {
-        NavHost(
-            navController,
-            startDestination = NavRoutes.MainRoute.name
-        ) {
-            mainGraph(drawerState)
-        }
+        AppNavHost(
+            navController = navController,
+            drawerState = drawerState
+        )
     }
 }
 
-enum class NavRoutes {
-    MainRoute,
-}
-
 // T for generic type to be used for the picking
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T : Enum<T>> AppDrawerContent(
+fun AppDrawerContent(
     drawerState: DrawerState,
-    menuItems: List<AppDrawerItemInfo<T>>,
-    defaultPick: T,
-    onClick: (T) -> Unit
+    menuItems: List<AppDrawerItemInfo>,
+    defaultPick: NavRoute,
+    onClick: (NavRoute) -> Unit
 ) {
     // default home destination to avoid duplication
     var currentPick by remember { mutableStateOf(defaultPick) }
@@ -149,14 +130,12 @@ fun <T : Enum<T>> AppDrawerContent(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit) =
+fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: NavRoute) -> Unit) =
     // making surface clickable causes to show the appropriate splash animation
     Surface(
         color = MaterialTheme.colorScheme.onPrimary,
-        modifier = Modifier
-            .width(150.dp),
+        modifier = Modifier.width(150.dp),
         onClick = { onClick(item.drawerOption) },
         shape = RoundedCornerShape(50),
     ) {
@@ -183,19 +162,18 @@ fun <T> AppDrawerItem(item: AppDrawerItemInfo<T>, onClick: (options: T) -> Unit)
 
 // base data container for the button creation
 // takes in the resources IDs
-data class AppDrawerItemInfo<T>(
-    val drawerOption: T,
+data class AppDrawerItemInfo(
+    val drawerOption: NavRoute,
     @StringRes val title: Int,
     @DrawableRes val drawableId: Int,
     @StringRes val descriptionId: Int
 )
 
-
 // list of the buttons
 object DrawerParams {
     val drawerButtons = arrayListOf(
         AppDrawerItemInfo(
-            MainNavOption.HomeScreen,
+            NavRoute.Home,
             R.string.drawer_home,
             R.drawable.ic_launcher_foreground,
             R.string.drawer_home_description

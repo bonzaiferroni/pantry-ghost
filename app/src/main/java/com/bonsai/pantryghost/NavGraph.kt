@@ -1,30 +1,46 @@
 package com.bonsai.pantryghost
 
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.navigation.NavGraphBuilder
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import com.bonsai.pantryghost.ui.HomeScreen
 
-@OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.mainGraph(drawerState: DrawerState) {
-    navigation(startDestination = MainNavOption.HomeScreen.name, route = NavRoutes.MainRoute.name) {
-        composable(MainNavOption.HomeScreen.name){
+@Composable
+fun AppNavHost(
+    navController: NavHostController,
+    drawerState: DrawerState,
+) {
+    NavHost(
+        navController = navController,
+        startDestination = NavRoute.Home.name
+    ) {
+        composable(NavRoute.Home.name) {
             HomeScreen(drawerState)
         }
-        composable(MainNavOption.SettingsScreen.name){
+        composable(NavRoute.Settings.name) {
             // SettingsScreen(drawerState)
         }
-        composable(MainNavOption.AboutScreen.name){
+        composable(NavRoute.About.name) {
             // AboutScreen(drawerState)
         }
     }
 }
 
 // available routes for the main route
-enum class MainNavOption {
-    HomeScreen,
-    SettingsScreen,
-    AboutScreen
+sealed interface NavRoute {
+    val name: String
+
+    data object Home : NavRoute {
+        override val name = "home"
+    }
+
+    data object Settings : NavRoute {
+        override val name = "settings"
+    }
+
+    data object About : NavRoute {
+        override val name = "about"
+    }
 }
