@@ -49,19 +49,15 @@ fun MainCompose(
             AppDrawerContent(
                 drawerState = drawerState,
                 menuItems = DrawerParams.drawerButtons,
-                defaultPick = NavRoute.Home
+                defaultPick = HomeRoute
             ) { onUserPickedOption ->
                 // when user picks, the path - navigates to new one
                 when (onUserPickedOption) {
-                    NavRoute.Home -> {
+                    HomeRoute -> {
                         navController.navigate(onUserPickedOption.name)
                     }
 
-                    NavRoute.Settings -> {
-                        navController.navigate(onUserPickedOption.name)
-                    }
-
-                    NavRoute.About -> {
+                    MealRoute -> {
                         navController.navigate(onUserPickedOption.name)
                     }
                 }
@@ -173,7 +169,7 @@ data class AppDrawerItemInfo(
 object DrawerParams {
     val drawerButtons = arrayListOf(
         AppDrawerItemInfo(
-            NavRoute.Home,
+            HomeRoute,
             R.string.drawer_home,
             R.drawable.ic_launcher_foreground,
             R.string.drawer_home_description

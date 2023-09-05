@@ -14,16 +14,13 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.Home.name
+        startDestination = HomeRoute.name
     ) {
-        composable(NavRoute.Home.name) {
+        composable(HomeRoute.name) {
             HomeScreen(drawerState)
         }
-        composable(NavRoute.Settings.name) {
+        composable(MealRoute.name) {
             // SettingsScreen(drawerState)
-        }
-        composable(NavRoute.About.name) {
-            // AboutScreen(drawerState)
         }
     }
 }
@@ -31,16 +28,12 @@ fun AppNavHost(
 // available routes for the main route
 sealed interface NavRoute {
     val name: String
+}
 
-    data object Home : NavRoute {
-        override val name = "home"
-    }
+data object HomeRoute : NavRoute {
+    override val name = "home"
+}
 
-    data object Settings : NavRoute {
-        override val name = "settings"
-    }
-
-    data object About : NavRoute {
-        override val name = "about"
-    }
+data object MealRoute : NavRoute {
+    override val name = "meal"
 }
