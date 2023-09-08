@@ -52,7 +52,7 @@ fun PgAppDrawer(
             AppDrawerContent(
                 drawerState = drawerState,
                 menuItems = DrawerParams.drawerButtons,
-                defaultPick = HomeRoute
+                defaultPick = NavRoute.HomeRoute
             ) { onUserPickedOption ->
                 navController.navigate(onUserPickedOption.name)
             }
@@ -161,7 +161,7 @@ data class AppDrawerItemInfo(
 object DrawerParams {
     val drawerButtons = arrayListOf(
         AppDrawerItemInfo(
-            HomeRoute,
+            NavRoute.HomeRoute,
             R.string.drawer_home,
             R.drawable.ic_launcher_foreground,
             R.string.drawer_home_description

@@ -1,7 +1,6 @@
 package com.bonsai.pantryghost.ui.food
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
@@ -21,10 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import com.bonsai.pantryghost.EditFoodRoute
-import com.bonsai.pantryghost.data.SampleData
+import com.bonsai.pantryghost.NavRoute
 import com.bonsai.pantryghost.data.SampleRepository
 import com.bonsai.pantryghost.navigateRoute
 import com.bonsai.pantryghost.ui.common.FabParams
@@ -47,7 +43,7 @@ fun FoodScreen(
         title = "Food",
         drawerState = drawerState,
         fabParams = FabParams(Icons.Filled.Add, "Add food") {
-            navController?.navigateRoute(EditFoodRoute, 0)
+            navController?.navigateRoute(NavRoute.EditFoodRoute, 0)
         },
         modifier = modifier
     ) {
@@ -65,7 +61,9 @@ fun FoodScreen(
                         Spacer(modifier = Modifier.weight(1f))
                         PgIconButton(
                             icon = Icons.Default.Edit,
-                            onClick = { navController?.navigateRoute(EditFoodRoute, food.id) }
+                            onClick = {
+                                navController?.navigateRoute(NavRoute.EditFoodRoute, food.id)
+                            }
                         )
                     }
                 }

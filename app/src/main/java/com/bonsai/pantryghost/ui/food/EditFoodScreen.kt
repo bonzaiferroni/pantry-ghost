@@ -14,9 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
+import com.bonsai.pantryghost.NavRoute.Companion.idArg
 import com.bonsai.pantryghost.data.SampleData
 import com.bonsai.pantryghost.data.SampleRepository
-import com.bonsai.pantryghost.idArg
 import com.bonsai.pantryghost.ui.common.AcceptCancelButtons
 import com.bonsai.pantryghost.ui.common.PgScaffold
 import com.bonsai.pantryghost.ui.common.StringField

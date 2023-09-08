@@ -3,8 +3,8 @@ package com.bonsai.pantryghost.ui.food
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bonsai.pantryghost.NavRoute.Companion.idArg
 import com.bonsai.pantryghost.data.DataRepository
-import com.bonsai.pantryghost.idArg
 import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.ui.common.ValueFieldParams
 import com.bonsai.pantryghost.ui.common.pickerNullText

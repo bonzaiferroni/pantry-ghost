@@ -1,7 +1,6 @@
 package com.bonsai.pantryghost.data
 
 import androidx.lifecycle.SavedStateHandle
-import com.bonsai.pantryghost.idArg
 import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.ui.food.EditFoodVm
 
