@@ -12,8 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import com.bonsai.pantryghost.data.SampleData
+import com.bonsai.pantryghost.data.SampleRepository
+import com.bonsai.pantryghost.idArg
 import com.bonsai.pantryghost.ui.common.AcceptCancelButtons
 import com.bonsai.pantryghost.ui.common.PgScaffold
 import com.bonsai.pantryghost.ui.common.StringField
@@ -92,5 +95,7 @@ fun EditFoodScreen(
 @Preview
 @Composable
 fun EditFoodScreenPreview() {
-    EditFoodScreen(viewModel = SampleData.editFoodVm)
+    val savedStateHandle = SavedStateHandle(mapOf(idArg to 1))
+    val editFoodVm = EditFoodVm(savedStateHandle, SampleRepository())
+    EditFoodScreen(viewModel = editFoodVm)
 }

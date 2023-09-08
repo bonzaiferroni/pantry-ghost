@@ -6,8 +6,6 @@ import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.ui.food.EditFoodVm
 
 object SampleData {
-    val savedStateHandle = SavedStateHandle(mapOf(idArg to 1))
-    val editFoodVm = EditFoodVm(savedStateHandle, SampleRepository())
 
     val foods by lazy {
         var id = 0
