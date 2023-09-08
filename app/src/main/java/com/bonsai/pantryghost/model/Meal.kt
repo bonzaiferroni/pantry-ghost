@@ -21,6 +21,7 @@ import androidx.room.PrimaryKey
 data class Meal (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    val name: String,
     @ColumnInfo(name = "meal_type_id")
     val mealTypeId: Int,
 )

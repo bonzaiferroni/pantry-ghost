@@ -1,8 +1,9 @@
 package com.bonsai.pantryghost.data
 
-import androidx.lifecycle.SavedStateHandle
 import com.bonsai.pantryghost.model.Food
-import com.bonsai.pantryghost.ui.food.EditFoodVm
+import com.bonsai.pantryghost.model.Ingredient
+import com.bonsai.pantryghost.model.Meal
+import com.bonsai.pantryghost.model.MealType
 
 object SampleData {
 
@@ -14,4 +15,33 @@ object SampleData {
             Food(++id, "Peanut Butter", 588f, 25.1f, 20.0f, 50.0f, 6.0f),
         )
     }
+
+    val mealTypes by lazy {
+        var id = 0
+        listOf(
+            MealType(++id, "Breakfast"),
+            MealType(++id, "Lunch"),
+            MealType(++id, "Dinner"),
+            MealType(++id, "Snack"),
+        )
+    }
+
+    val meals by lazy {
+        var id = 0
+        listOf(
+            Meal(++id, "apple breakfast", mealTypes[id].id),
+            Meal(++id, "chicken lunch", mealTypes[id].id),
+            Meal(++id, "peanut-butter-jelly-time", mealTypes[id].id),
+        )
+    }
+
+    val ingredients by lazy {
+        var id = 0
+        listOf(
+            Ingredient(++id, meals[id].id, foods[id].id, 1f),
+            Ingredient(++id, meals[id].id, foods[id].id, 1f),
+            Ingredient(++id, meals[id].id, foods[id].id, 1f),
+        )
+    }
+
 }

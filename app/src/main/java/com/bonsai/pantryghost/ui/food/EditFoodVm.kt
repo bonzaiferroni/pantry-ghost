@@ -6,8 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.bonsai.pantryghost.NavRoute.Companion.idArg
 import com.bonsai.pantryghost.data.DataRepository
 import com.bonsai.pantryghost.model.Food
-import com.bonsai.pantryghost.ui.common.ValueFieldParams
-import com.bonsai.pantryghost.ui.common.pickerNullText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

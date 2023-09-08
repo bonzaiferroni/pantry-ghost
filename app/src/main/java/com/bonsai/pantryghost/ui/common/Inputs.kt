@@ -72,7 +72,7 @@ fun ValuePickerField(
     }
 }
 
-const val pickerNullText = "?"
+const val nullPickerText = "?"
 
 @Composable
 fun StringField(
@@ -98,19 +98,19 @@ fun StringField(params: ValueFieldParams, onValueChange: (String) -> Unit) {
 
 data class ValueFieldParams(
     val text: String = "",
-    val pickerState: String = pickerNullText,
+    val pickerState: String = nullPickerText,
     val suggestions: List<String> = emptyList(),
 ) {
     constructor(text: String? = null, suggestions: List<String>? = null) : this(
         text = text ?: "",
-        pickerState = text ?: pickerNullText,
+        pickerState = text ?: nullPickerText,
         suggestions = suggestions ?: emptyList()
     )
 
     fun setText(text: String? = null): ValueFieldParams {
         return copy(
             text = text ?: "",
-            pickerState = text ?: pickerNullText,
+            pickerState = text ?: nullPickerText,
         )
     }
 }
@@ -158,7 +158,7 @@ fun BooleanField(
     ValuePickerField(
         text = text,
         pickerState = pickerState,
-        suggestions = listOf("false", pickerNullText, "true"),
+        suggestions = listOf("false", nullPickerText, "true"),
         label = "Boolean",
         keyboardType = KeyboardType.Text,
         onValueChange = onValueChange
@@ -179,5 +179,25 @@ fun EnumField(
         label = "Enumerator",
         keyboardType = KeyboardType.Text,
         onValueChange = onValueChange
+    )
+}
+
+@Composable
+fun ItemPicker(
+    pickerState: String,
+    suggestions: List<String>,
+    modifier: Modifier = Modifier,
+    onValueChange: (String) -> Unit
+) {
+    ListItemPicker(
+        label = { it },
+        value = pickerState,
+        onValueChange = onValueChange,
+        list = suggestions,
+        textStyle = TextStyle.Default.copy(
+            color = MaterialTheme.colorScheme.onBackground
+        ),
+        dividersColor = MaterialTheme.colorScheme.primary,
+        modifier = modifier
     )
 }

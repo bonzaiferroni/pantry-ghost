@@ -60,6 +60,12 @@ sealed interface NavRoute {
         override val name = "meal"
     }
 
+    data object EditMeal : NavRoute {
+        override val name = "edit_meal"
+        val routeWithArgs = "${EditFoodRoute.name}/{$idArg}"
+        val argList = listOf(idNavArg)
+    }
+
     companion object {
         val idArg = "id"
         val idNavArg = navArgument(idArg) { type = NavType.IntType }

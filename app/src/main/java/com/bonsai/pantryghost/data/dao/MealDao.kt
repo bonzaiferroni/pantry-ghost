@@ -18,6 +18,12 @@ interface MealDao {
     @Query("SELECT * FROM meal WHERE id = :id")
     fun getById(id: Int): Flow<Meal>
 
+    @Query("SELECT t1.* FROM meal t1 " +
+            "JOIN (SELECT name, MIN(id) AS MinID FROM meal GROUP BY name) t2 " +
+            "ON t1.name = t2.name AND t1.id = t2.MinID " +
+            "ORDER BY id DESC LIMIT :count")
+    fun getRecentDistinctMeals(count: Int): Flow<List<Meal>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(meal: Meal): Long
 

@@ -18,8 +18,7 @@ interface FoodDao {
     fun getById(id: Int): Flow<Food>
 
     @Query("SELECT DISTINCT name FROM food " +
-            "ORDER BY id DESC " +
-            "LIMIT :count")
+            "ORDER BY id DESC LIMIT :count")
     fun getRecentNames(count: Int): Flow<List<String>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
