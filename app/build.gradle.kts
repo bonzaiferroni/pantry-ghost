@@ -75,11 +75,14 @@ dependencies {
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
     // room
     implementation(libs.androidx.room.runtime)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.room.compiler3)
     implementation(libs.androidx.room.ktx)
+    // number picker
+    implementation(libs.numberpicker)
 }
 
 // Allow references to generated code

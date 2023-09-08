@@ -1,0 +1,96 @@
+package com.bonsai.pantryghost.ui.food
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.DrawerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.bonsai.pantryghost.data.SampleData
+import com.bonsai.pantryghost.ui.common.AcceptCancelButtons
+import com.bonsai.pantryghost.ui.common.PgScaffold
+import com.bonsai.pantryghost.ui.common.StringField
+import com.bonsai.pantryghost.ui.common.ValueField
+import com.bonsai.pantryghost.utils.gapMedium
+import com.bonsai.pantryghost.utils.paddingSmall
+
+@Composable
+fun EditFoodScreen(
+    modifier: Modifier = Modifier,
+    drawerState: DrawerState? = null,
+    navController: NavHostController? = null,
+    viewModel: EditFoodVm = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    PgScaffold(
+        title = "Edit Food",
+        drawerState = drawerState,
+        modifier = modifier,
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(gapMedium()),
+            modifier = Modifier
+                .padding(paddingSmall())
+                .weight(1f)
+        ) {
+            ValueField(
+                value = uiState.name,
+                label = "Name",
+                keyboardType = KeyboardType.Text,
+                onValueChange = viewModel::onNameChange,
+            )
+            ValueField(
+                value = uiState.calories,
+                label = "Calories",
+                keyboardType = KeyboardType.Decimal,
+                onValueChange = viewModel::onCaloriesChange,
+            )
+            ValueField(
+                value = uiState.protein,
+                label = "Protein",
+                keyboardType = KeyboardType.Decimal,
+                onValueChange = viewModel::onProteinChange,
+            )
+            ValueField(
+                value = uiState.carbs,
+                label = "Carbs",
+                keyboardType = KeyboardType.Decimal,
+                onValueChange = viewModel::onCarbsChange,
+            )
+            ValueField(
+                value = uiState.fat,
+                label = "Fat",
+                keyboardType = KeyboardType.Decimal,
+                onValueChange = viewModel::onFatChange,
+            )
+            ValueField(
+                value = uiState.fiber,
+                label = "Fiber",
+                keyboardType = KeyboardType.Decimal,
+                onValueChange = viewModel::onFiberChange,
+            )
+            AcceptCancelButtons(
+                enabled = uiState.isValid,
+                onAccept = {
+                    viewModel.saveFood()
+                    navController?.navigateUp()
+                },
+                onCancel = { navController?.navigateUp() }
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun EditFoodScreenPreview() {
+    EditFoodScreen(viewModel = SampleData.editFoodVm)
+}

@@ -34,7 +34,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.bonsai.pantryghost.utils.gapLarge
@@ -55,16 +54,7 @@ fun PgAppDrawer(
                 menuItems = DrawerParams.drawerButtons,
                 defaultPick = HomeRoute
             ) { onUserPickedOption ->
-                // when user picks, the path - navigates to new one
-                when (onUserPickedOption) {
-                    HomeRoute -> {
-                        navController.navigate(onUserPickedOption.name)
-                    }
-
-                    MealRoute -> {
-                        navController.navigate(onUserPickedOption.name)
-                    }
-                }
+                navController.navigate(onUserPickedOption.name)
             }
         }
     ) {
