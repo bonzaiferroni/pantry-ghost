@@ -20,6 +20,8 @@ interface DataRepository {
     fun getAllMeals(): Flow<List<Meal>>
     fun getRecentDistinctMeals(count: Int): Flow<List<Meal>>
     fun getMealById(id: Int): Flow<Meal>
+    fun insertMeal(meal: Meal): Int
+    fun updateMeal(meal: Meal)
 
     // mealType
     fun getMealTypeById(mealTypeId: Int): Flow<MealType>
@@ -28,4 +30,8 @@ interface DataRepository {
 
     // serving
     fun getServingsByMealId(id: Int): Flow<List<Serving>>
+    fun getAllServings(): Flow<List<Serving>>
+    suspend fun insertServings(servings: List<Serving>)
+    suspend fun updateServings(servings: List<Serving>)
+    suspend fun deleteServing(serving: Serving)
 }

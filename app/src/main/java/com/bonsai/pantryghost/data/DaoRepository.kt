@@ -38,4 +38,5 @@ class DaoRepository(
     override suspend fun insertMealTypes(mealTypes: List<MealType>) = mealTypeDao.insertAll(mealTypes)
 
     override fun getServingsByMealId(id: Int): Flow<List<Serving>> = servingDao.getByMealId(id)
+    override fun getAllServings(): Flow<List<Serving>> = servingDao.getAll()
 }

@@ -17,6 +17,7 @@ object SampleData {
             Food(++id, "Peanut Butter", 588f, 25.1f, 20.0f, 50.0f, 6.0f),
         )
     }
+    fun getFood(id: Int) = foods.first { it.id == id }
 
     val mealTypes by lazy {
         var id = 0
@@ -27,24 +28,27 @@ object SampleData {
             MealType(++id, "Snack"),
         )
     }
+    fun getMealType(id: Int) = mealTypes.first { it.id == id }
 
     val meals by lazy {
         var id = 0
         fun getInstant(hours: Int) = Instant.now().minus(hours.toLong(), ChronoUnit.HOURS)
         listOf(
-            Meal(++id, "apple breakfast", mealTypes[id].id, getInstant(id)),
-            Meal(++id, "chicken lunch", mealTypes[id].id, getInstant(id)),
-            Meal(++id, "peanut-butter-jelly-time", mealTypes[id].id, getInstant(id)),
+            Meal(++id, "apple breakfast", getMealType(id).id, getInstant(id)),
+            Meal(++id, "chicken lunch", getMealType(id).id, getInstant(id)),
+            Meal(++id, "peanut-butter-jelly-time", getMealType(id).id, getInstant(id)),
         )
     }
+    fun getMeal(id: Int) = meals.first { it.id == id }
 
     val servings by lazy {
         var id = 0
         listOf(
-            Serving(++id, meals[id].id, foods[id].id, 1f),
-            Serving(++id, meals[id].id, foods[id].id, 1f),
-            Serving(++id, meals[id].id, foods[id].id, 1f),
+            Serving(++id, getMeal(id).id, getFood(id).id, 1f),
+            Serving(++id, getMeal(id).id, getFood(id).id, 1f),
+            Serving(++id, getMeal(id).id, getFood(id).id, 1f),
         )
     }
+    fun getServing(id: Int) = servings.first { it.id == id }
 
 }

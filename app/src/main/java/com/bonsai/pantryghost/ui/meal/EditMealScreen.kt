@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -18,13 +19,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import com.bonsai.pantryghost.NavRoute
 import com.bonsai.pantryghost.data.SampleRepository
 import com.bonsai.pantryghost.navigateRoute
+import com.bonsai.pantryghost.ui.common.AcceptCancelButtons
 import com.bonsai.pantryghost.ui.common.FloatField
 import com.bonsai.pantryghost.ui.common.ItemPicker
 import com.bonsai.pantryghost.ui.common.PgIconButton
@@ -64,11 +68,14 @@ fun EditMealScreen(
                 pickerState = uiState.mealType,
                 suggestions = uiState.mealTypes,
                 onValueChange = viewModel::onMealTypeChange,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .width(200.dp),
             )
             // servings
             ServingsList(
-                servings = uiState.servings,
-                onGramsChange = viewModel::onGramsChange,
+                uiState = uiState,
+                viewModel = viewModel,
             )
             // add serving
             AddServingControl(
@@ -80,6 +87,11 @@ fun EditMealScreen(
                 Text("Add Food")
             }
         }
+        AcceptCancelButtons(
+            enabled = uiState.isValid,
+            onAccept = viewModel::onSave,
+            onCancel = viewModel::onCancel,
+        )
     }
 }
 
@@ -99,12 +111,18 @@ fun MealNameField(
             modifier = modifier,
         )
     } else {
-        StringField(
-            value = uiState.mealName,
-            label = "Meal Name",
-            onValueChange = viewModel::onMealNameChange,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
             modifier = modifier,
-        )
+        ) {
+            StringField(
+                value = uiState.mealName,
+                label = "Meal Name",
+                onValueChange = viewModel::onMealNameChange,
+                modifier = Modifier.weight(1f),
+            )
+            Text(text = uiState.meal.time.toString())
+        }
     }
 }
 
@@ -142,27 +160,31 @@ fun AddServingControl(
 
 @Composable
 fun ServingsList(
-    servings: List<ServingUiState>,
-    onGramsChange: (Int, String) -> Unit,
+    uiState: EditMealUiState,
+    viewModel: EditMealVm,
     modifier: Modifier = Modifier,
 ) {
-    Text(text = "${servings.size}")
     LazyColumn(
         modifier = modifier,
     ) {
-        items(servings) { serving ->
+        items(uiState.servings) { serving ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(gapMedium()),
             ) {
-                Text(text = serving.foodName)
+                Text(
+                    text = serving.foodName,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.weight(1f),
+                )
                 FloatField(
                     value = serving.grams,
                     label = "grams",
-                    onValueChange = { onGramsChange(serving.foodId, it) },
+                    onValueChange = { viewModel.onGramsChange(serving.foodId, it) },
+                    modifier = Modifier.weight(1f),
                 )
                 PgIconButton(
-                    onClick = {},
+                    onClick = { viewModel.onDeleteServing(serving)},
                     icon = Icons.Default.Delete,
                     contentDescription = "Delete Serving"
                 )

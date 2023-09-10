@@ -8,12 +8,14 @@ import com.bonsai.pantryghost.data.DataRepository
 import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealType
+import com.bonsai.pantryghost.model.Serving
 import com.bonsai.pantryghost.ui.common.nullPickerText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,7 +36,7 @@ class EditMealVm @Inject constructor(
         viewModelScope.launch {
             dataRepository.getAllMealTypes().collect { mealTypes ->
                 _uiState.value = uiState.value.copy(
-                    mealTypes = mealTypes,
+                    mealTypes = mealTypes + initialMealType,
                 )
             }
         }
@@ -43,7 +45,7 @@ class EditMealVm @Inject constructor(
         viewModelScope.launch {
             dataRepository.getAllFoods().collect { foods ->
                 _uiState.value = uiState.value.copy(
-                    foods = foods
+                    foods = foods + initialFood,
                 )
             }
         }
@@ -67,7 +69,6 @@ class EditMealVm @Inject constructor(
                 val servings = dataRepository.getServingsByMealId(meal.id).first()
                 val foods = dataRepository.getAllFoods().first()
                 _uiState.value = uiState.value.copy(
-                    foods = foods,
                     servings = servings.map { serving ->
                         ServingUiState(
                             foodId = serving.foodId,
@@ -84,14 +85,14 @@ class EditMealVm @Inject constructor(
         }
     }
 
-    fun onMealTypeChange(mealType: MealType?) {
+    fun onMealTypeChange(mealType: MealType) {
         _uiState.value = uiState.value.copy(
             mealType = mealType,
         )
     }
 
     fun onAddServing() {
-        val food = uiState.value.food ?: throw IllegalStateException("food is null")
+        val food = uiState.value.food
         val grams = uiState.value.grams
         _uiState.value = uiState.value.copy(
             servings = uiState.value.servings + ServingUiState(
@@ -126,16 +127,74 @@ class EditMealVm @Inject constructor(
         )
     }
 
-    fun onFoodChange(food: Food?) {
+    fun onFoodChange(food: Food) {
         _uiState.value = uiState.value.copy(
             food = food,
         )
     }
+
+    fun onDeleteServing(serving: ServingUiState) {
+        _uiState.value = uiState.value.copy(
+            servings = uiState.value.servings.filter { it != serving }
+        )
+        if (serving.id != 0) {
+            viewModelScope.launch {
+                val deletedServing = Serving(
+                    id = serving.id,
+                    mealId = id,
+                    foodId = serving.foodId,
+                    grams = serving.grams.toFloat(),
+                )
+                dataRepository.deleteServing(deletedServing)
+            }
+        }
+    }
+
+    fun onSave() {
+        if (!uiState.value.isValid) {
+            return
+        }
+
+        val meal = Meal(
+            id = id,
+            name = uiState.value.mealName,
+            mealTypeId = uiState.value.mealType.id,
+            Instant.now(),
+        )
+
+        val servings = uiState.value.servings.map { serving ->
+            Serving(
+                id = serving.id,
+                mealId = meal.id,
+                foodId = serving.foodId,
+                grams = serving.grams.toFloat(),
+            )
+        }
+
+        viewModelScope.launch {
+            if (meal.id == 0) {
+                val newMealId = dataRepository.insertMeal(meal)
+                dataRepository.insertServings(servings.map { it.copy(mealId = newMealId) })
+            } else {
+                val newServings = servings.filter { it.id == 0 }
+                val editedServings = servings.filter { it.id != 0 }
+                dataRepository.updateMeal(meal)
+                dataRepository.insertServings(newServings)
+                dataRepository.updateServings(editedServings)
+            }
+        }
+    }
+
+    fun onCancel() {
+    }
 }
 
+val initialMealType = MealType(0, "(meal type)")
+val initialFood = Food(0, "(food)", 0f, 0f, 0f, 0f, 0f)
+
 data class EditMealUiState(
-    val isNewMeal: Boolean = false,
-    val enableAccept: Boolean = false,
+    // meal
+    val meal: Meal? = null,
 
     // meal name
     val mealName: String = "",
@@ -143,20 +202,36 @@ data class EditMealUiState(
     val mealNameSuggestions: List<String> = listOf(nullPickerText),
 
     // meal type
-    val mealType: MealType? = null,
-    val mealTypes: List<MealType?> = listOf(null),
+    val mealType: MealType = initialMealType,
+    val mealTypes: List<MealType> = listOf(initialMealType),
 
     // servings
     val servings: List<ServingUiState> = emptyList(),
 
     // add serving
-    val food: Food? = null,
-    val foods: List<Food?> = listOf(null),
+    val food: Food = initialFood,
+    val foods: List<Food> = listOf(initialFood),
     val grams: String = "",
-)
+) {
+    val isNewMeal: Boolean
+        get() = meal == null
+
+    val isValid: Boolean
+        get() = mealName.isNotBlank() && mealType != initialMealType && servings.isNotEmpty()
+                && servings.all { it.isValid }
+    val isNewServingValid: Boolean
+        get() = food != initialFood
+
+    val isMealValid: Boolean
+        get() = mealName.isNotBlank() && mealType != initialMealType && servings.isNotEmpty()
+}
 
 data class ServingUiState(
+    val id: Int = 0,
     val foodId: Int,
     val foodName: String = "",
     val grams: String = "",
-)
+) {
+    val isValid: Boolean
+        get() = foodId != 0 && grams.toFloatOrNull() != null
+}

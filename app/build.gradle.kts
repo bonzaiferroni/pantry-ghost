@@ -83,6 +83,8 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     // number picker
     implementation(libs.numberpicker)
+    // coroutine tests
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 // Allow references to generated code
