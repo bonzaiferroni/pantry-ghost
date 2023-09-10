@@ -13,4 +13,6 @@ data class Food (
     val carbs: Float,
     val fat: Float,
     val fiber: Float,
-)
+) {
+    override fun toString() = name
+}

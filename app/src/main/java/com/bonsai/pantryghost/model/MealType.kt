@@ -8,4 +8,6 @@ data class MealType (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
-)
+) {
+    override fun toString(): String = name
+}

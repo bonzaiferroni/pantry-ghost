@@ -1,19 +1,20 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.data.dao.FoodDao
-import com.bonsai.pantryghost.data.dao.IngredientDao
 import com.bonsai.pantryghost.data.dao.MealDao
 import com.bonsai.pantryghost.data.dao.MealTypeDao
+import com.bonsai.pantryghost.data.dao.ServingDao
 import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealType
+import com.bonsai.pantryghost.model.Serving
 import kotlinx.coroutines.flow.Flow
 
-class DataRepositoryImp(
+class DaoRepository(
     val foodDao: FoodDao,
-    val ingredientDao: IngredientDao,
+    val servingDao: ServingDao,
     val mealDao: MealDao,
-    val mealTypeDao: MealTypeDao
+    val mealTypeDao: MealTypeDao,
 ) : DataRepository {
 
     // food
@@ -22,21 +23,19 @@ class DataRepositoryImp(
     override fun getRecentFoodNames(count: Int): Flow<List<String>> = foodDao.getRecentNames(count)
     override suspend fun insertFood(food: Food) = foodDao.insert(food)
     override suspend fun updateFood(food: Food) = foodDao.update(food)
-    override fun getAllMeals(): Flow<List<Meal>> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun insertFoods(foods: List<Food>) = foodDao.insertAll(foods)
 
-    override fun getRecentDistinctMeals(count: Int): Flow<List<Meal>> {
-        TODO("Not yet implemented")
-    }
+    // meals
+    override fun getAllMeals(): Flow<List<Meal>> = mealDao.getAll()
+    override fun getRecentDistinctMeals(count: Int): Flow<List<Meal>> =
+        mealDao.getRecentDistinctMeals(count)
+    override fun getMealById(id: Int): Flow<Meal> = mealDao.getById(id)
 
-    override fun getMealById(id: Int): Flow<Meal> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getMealTypeById(mealTypeId: Int): Flow<MealType> {
-        TODO("Not yet implemented")
-    }
-
+    // mealType
+    override fun getMealTypeById(mealTypeId: Int): Flow<MealType> =
+        mealTypeDao.getById(mealTypeId)
     override fun getAllMealTypes(): Flow<List<MealType>> = mealTypeDao.getAll()
+    override suspend fun insertMealTypes(mealTypes: List<MealType>) = mealTypeDao.insertAll(mealTypes)
+
+    override fun getServingsByMealId(id: Int): Flow<List<Serving>> = servingDao.getByMealId(id)
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bonsai.pantryghost.NavRoute
 import com.bonsai.pantryghost.data.DataRepository
+import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealType
 import com.bonsai.pantryghost.ui.common.nullPickerText
@@ -34,11 +35,19 @@ class EditMealVm @Inject constructor(
             dataRepository.getAllMealTypes().collect { mealTypes ->
                 _uiState.value = uiState.value.copy(
                     mealTypes = mealTypes,
-                    mealTypeState = mealTypes.firstOrNull()?.name ?: nullPickerText,
-                    mealTypeSuggestions = mealTypes.map { mealType -> mealType.name }
                 )
             }
         }
+
+        // get foods
+        viewModelScope.launch {
+            dataRepository.getAllFoods().collect { foods ->
+                _uiState.value = uiState.value.copy(
+                    foods = foods
+                )
+            }
+        }
+
         // get meal from Id
         viewModelScope.launch {
             if (id != 0) {
@@ -52,7 +61,20 @@ class EditMealVm @Inject constructor(
                 // get meal type
                 val mealType = dataRepository.getMealTypeById(meal.mealTypeId).first()
                 _uiState.value = uiState.value.copy(
-                    mealTypeState = mealType.name,
+                    mealType = mealType,
+                )
+                // get servings
+                val servings = dataRepository.getServingsByMealId(meal.id).first()
+                val foods = dataRepository.getAllFoods().first()
+                _uiState.value = uiState.value.copy(
+                    foods = foods,
+                    servings = servings.map { serving ->
+                        ServingUiState(
+                            foodId = serving.foodId,
+                            foodName = foods.first { it.id == serving.foodId }.name,
+                            grams = serving.grams.toString(),
+                        )
+                    }
                 )
             } else {
                 _uiState.value = uiState.value.copy(
@@ -62,32 +84,79 @@ class EditMealVm @Inject constructor(
         }
     }
 
-    fun onMealTypeChange(name: String) {
+    fun onMealTypeChange(mealType: MealType?) {
         _uiState.value = uiState.value.copy(
-            mealTypeState = name,
+            mealType = mealType,
         )
     }
 
-    fun onAddIngredient() {
+    fun onAddServing() {
+        val food = uiState.value.food ?: throw IllegalStateException("food is null")
+        val grams = uiState.value.grams
         _uiState.value = uiState.value.copy(
-            ingredients = uiState.value.ingredients + IngredientInfo()
+            servings = uiState.value.servings + ServingUiState(
+                foodId = food.id,
+                foodName = food.name,
+                grams = grams,
+            )
+        )
+    }
+
+    fun onMealNameChange(name: String) {
+        _uiState.value = uiState.value.copy(
+            mealName = name,
+        )
+    }
+
+    fun onGramsChange(value: String) {
+        _uiState.value = uiState.value.copy(
+            grams = value,
+        )
+    }
+
+    fun onGramsChange(foodId: Int, text: String) {
+        _uiState.value = uiState.value.copy(
+            servings = uiState.value.servings.map { serving ->
+                if (serving.foodId == foodId) {
+                    serving.copy(grams = text)
+                } else {
+                    serving
+                }
+            }
+        )
+    }
+
+    fun onFoodChange(food: Food?) {
+        _uiState.value = uiState.value.copy(
+            food = food,
         )
     }
 }
 
 data class EditMealUiState(
     val isNewMeal: Boolean = false,
+    val enableAccept: Boolean = false,
+
+    // meal name
     val mealName: String = "",
     val mealNameState: String = nullPickerText,
+    val mealNameSuggestions: List<String> = listOf(nullPickerText),
 
-    val mealTypes: List<MealType> = emptyList(),
-    val mealTypeState: String = nullPickerText,
-    val mealTypeSuggestions: List<String> = emptyList(),
-    val enableAccept: Boolean = false,
-    val ingredients: List<IngredientInfo> = emptyList(),
+    // meal type
+    val mealType: MealType? = null,
+    val mealTypes: List<MealType?> = listOf(null),
+
+    // servings
+    val servings: List<ServingUiState> = emptyList(),
+
+    // add serving
+    val food: Food? = null,
+    val foods: List<Food?> = listOf(null),
+    val grams: String = "",
 )
 
-data class IngredientInfo(
-    val foodName: String = nullPickerText,
-    val foodId: Int? = null,
+data class ServingUiState(
+    val foodId: Int,
+    val foodName: String = "",
+    val grams: String = "",
 )

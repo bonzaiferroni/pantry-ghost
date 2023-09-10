@@ -10,6 +10,8 @@ import androidx.navigation.navArgument
 import com.bonsai.pantryghost.ui.food.EditFoodScreen
 import com.bonsai.pantryghost.ui.food.FoodScreen
 import com.bonsai.pantryghost.ui.home.HomeScreen
+import com.bonsai.pantryghost.ui.meal.EditMealScreen
+import com.bonsai.pantryghost.ui.meal.MealScreen
 
 @Composable
 fun PgNavHost(
@@ -18,7 +20,7 @@ fun PgNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.FoodRoute.name
+        startDestination = NavRoute.MealRoute.name
     ) {
         composable(route = NavRoute.HomeRoute.name) {
             HomeScreen(drawerState = drawerState)
@@ -32,11 +34,17 @@ fun PgNavHost(
         ) {
             EditFoodScreen(drawerState = drawerState, navController = navController)
         }
+        composable(route = NavRoute.MealRoute.name) {
+            MealScreen(drawerState = drawerState, navController = navController)
+        }
+        composable(
+            route = NavRoute.EditMealRoute.routeWithArgs,
+            arguments = NavRoute.EditMealRoute.argList
+        ) {
+            EditMealScreen(drawerState = drawerState, navController = navController)
+        }
     }
 }
-
-// args
-
 
 // routes
 sealed interface NavRoute {
@@ -60,9 +68,9 @@ sealed interface NavRoute {
         override val name = "meal"
     }
 
-    data object EditMeal : NavRoute {
+    data object EditMealRoute : NavRoute {
         override val name = "edit_meal"
-        val routeWithArgs = "${EditFoodRoute.name}/{$idArg}"
+        val routeWithArgs = "${name}/{$idArg}"
         val argList = listOf(idNavArg)
     }
 

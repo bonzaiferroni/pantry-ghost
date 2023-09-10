@@ -3,7 +3,6 @@ package com.bonsai.pantryghost.ui.food
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -15,11 +14,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import com.bonsai.pantryghost.NavRoute.Companion.idArg
-import com.bonsai.pantryghost.data.SampleData
 import com.bonsai.pantryghost.data.SampleRepository
 import com.bonsai.pantryghost.ui.common.AcceptCancelButtons
 import com.bonsai.pantryghost.ui.common.PgScaffold
-import com.bonsai.pantryghost.ui.common.StringField
 import com.bonsai.pantryghost.ui.common.ValueField
 import com.bonsai.pantryghost.utils.gapMedium
 import com.bonsai.pantryghost.utils.paddingSmall

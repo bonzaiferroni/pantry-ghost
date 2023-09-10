@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import java.time.Instant
 
 @Entity(
     tableName = "meal",
@@ -24,4 +25,5 @@ data class Meal (
     val name: String,
     @ColumnInfo(name = "meal_type_id")
     val mealTypeId: Int,
+    val time: Instant,
 )

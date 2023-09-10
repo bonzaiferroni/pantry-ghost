@@ -166,5 +166,17 @@ object DrawerParams {
             R.drawable.ic_launcher_foreground,
             R.string.drawer_home_description
         ),
+        AppDrawerItemInfo(
+            NavRoute.FoodRoute,
+            R.string.drawer_food,
+            R.drawable.ic_launcher_foreground,
+            R.string.drawer_home_description
+        ),
+        AppDrawerItemInfo(
+            NavRoute.MealRoute,
+            R.string.drawer_meal,
+            R.drawable.ic_launcher_foreground,
+            R.string.drawer_home_description
+        ),
     )
 }

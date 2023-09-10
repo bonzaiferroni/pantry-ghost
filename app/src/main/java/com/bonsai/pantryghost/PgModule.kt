@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.bonsai.pantryghost.data.AppDatabase
 import com.bonsai.pantryghost.data.DataRepository
-import com.bonsai.pantryghost.data.DataRepositoryImp
+import com.bonsai.pantryghost.data.DaoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,9 +30,9 @@ object PgModule {
     @Provides
     @Singleton
     fun provideDataRepository(appDatabase: AppDatabase): DataRepository {
-        return DataRepositoryImp(
+        return DaoRepository(
             foodDao = appDatabase.foodDao(),
-            ingredientDao = appDatabase.ingredientDao(),
+            servingDao = appDatabase.servingDao(),
             mealDao = appDatabase.mealDao(),
             mealTypeDao = appDatabase.mealTypeDao()
         )

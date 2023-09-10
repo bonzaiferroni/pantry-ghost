@@ -41,7 +41,7 @@ fun MealScreen(
         title = "Meals",
         drawerState = drawerState,
         fabParams = FabParams(Icons.Filled.Add, "Add meal") {
-            navController?.navigateRoute(NavRoute.EditMeal, 0)
+            navController?.navigateRoute(NavRoute.EditMealRoute, 0)
         },
         modifier = modifier
     ) {
@@ -60,7 +60,7 @@ fun MealScreen(
                         PgIconButton(
                             icon = Icons.Default.Edit,
                             onClick = {
-                                navController?.navigateRoute(NavRoute.EditMeal, meal.id)
+                                navController?.navigateRoute(NavRoute.EditMealRoute, meal.id)
                             }
                         )
                     }

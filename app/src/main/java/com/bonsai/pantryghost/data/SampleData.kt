@@ -1,9 +1,11 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.model.Food
-import com.bonsai.pantryghost.model.Ingredient
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealType
+import com.bonsai.pantryghost.model.Serving
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 object SampleData {
 
@@ -28,19 +30,20 @@ object SampleData {
 
     val meals by lazy {
         var id = 0
+        fun getInstant(hours: Int) = Instant.now().minus(hours.toLong(), ChronoUnit.HOURS)
         listOf(
-            Meal(++id, "apple breakfast", mealTypes[id].id),
-            Meal(++id, "chicken lunch", mealTypes[id].id),
-            Meal(++id, "peanut-butter-jelly-time", mealTypes[id].id),
+            Meal(++id, "apple breakfast", mealTypes[id].id, getInstant(id)),
+            Meal(++id, "chicken lunch", mealTypes[id].id, getInstant(id)),
+            Meal(++id, "peanut-butter-jelly-time", mealTypes[id].id, getInstant(id)),
         )
     }
 
-    val ingredients by lazy {
+    val servings by lazy {
         var id = 0
         listOf(
-            Ingredient(++id, meals[id].id, foods[id].id, 1f),
-            Ingredient(++id, meals[id].id, foods[id].id, 1f),
-            Ingredient(++id, meals[id].id, foods[id].id, 1f),
+            Serving(++id, meals[id].id, foods[id].id, 1f),
+            Serving(++id, meals[id].id, foods[id].id, 1f),
+            Serving(++id, meals[id].id, foods[id].id, 1f),
         )
     }
 

@@ -7,7 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "ingredient",
+    tableName = "serving",
     foreignKeys = [
         ForeignKey(
             entity = Food::class,
@@ -24,7 +24,7 @@ import androidx.room.PrimaryKey
     ],
     indices = [Index("food_id"), Index("meal_id")]
 )
-data class Ingredient(
+data class Serving(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "food_id")
