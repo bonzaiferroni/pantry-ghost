@@ -30,6 +30,9 @@ interface ServingDao {
     @Update
     suspend fun update(serving: Serving)
 
+    @Update
+    suspend fun updateAll(servings: List<Serving>)
+
     @Delete
     suspend fun delete(serving: Serving)
 

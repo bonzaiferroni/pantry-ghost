@@ -30,6 +30,8 @@ class DaoRepository(
     override fun getRecentDistinctMeals(count: Int): Flow<List<Meal>> =
         mealDao.getRecentDistinctMeals(count)
     override fun getMealById(id: Int): Flow<Meal> = mealDao.getById(id)
+    override suspend fun insertMeal(meal: Meal): Int = mealDao.insert(meal).toInt()
+    override suspend fun updateMeal(meal: Meal) = mealDao.update(meal)
 
     // mealType
     override fun getMealTypeById(mealTypeId: Int): Flow<MealType> =
@@ -39,4 +41,7 @@ class DaoRepository(
 
     override fun getServingsByMealId(id: Int): Flow<List<Serving>> = servingDao.getByMealId(id)
     override fun getAllServings(): Flow<List<Serving>> = servingDao.getAll()
+    override suspend fun insertServings(servings: List<Serving>) = servingDao.insertAll(servings)
+    override suspend fun updateServings(servings: List<Serving>) = servingDao.updateAll(servings)
+    override suspend fun deleteServing(serving: Serving) = servingDao.delete(serving)
 }

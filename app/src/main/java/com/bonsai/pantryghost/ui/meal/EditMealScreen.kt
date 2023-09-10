@@ -121,7 +121,7 @@ fun MealNameField(
                 onValueChange = viewModel::onMealNameChange,
                 modifier = Modifier.weight(1f),
             )
-            Text(text = uiState.meal.time.toString())
+            Text(text = uiState.meal?.time.toString())
         }
     }
 }

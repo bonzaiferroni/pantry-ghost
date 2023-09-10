@@ -56,7 +56,7 @@ class EditMealVm @Inject constructor(
                 // get meal
                 val meal = dataRepository.getMealById(id).first()
                 _uiState.value = uiState.value.copy(
-                    isNewMeal = false,
+                    meal = meal,
                     mealName = meal.name,
                     mealNameState = meal.name,
                 )
@@ -76,10 +76,6 @@ class EditMealVm @Inject constructor(
                             grams = serving.grams.toString(),
                         )
                     }
-                )
-            } else {
-                _uiState.value = uiState.value.copy(
-                    isNewMeal = true,
                 )
             }
         }
