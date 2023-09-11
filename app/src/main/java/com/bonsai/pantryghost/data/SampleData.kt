@@ -12,9 +12,9 @@ object SampleData {
     val foods by lazy {
         var id = 0
         listOf(
-            Food(++id, "Apple", 52f, 0.3f, 13.8f, 0.2f, 2.4f),
-            Food(++id, "Chicken Breast", 165f, 31.0f, 0f, 3.6f, 0f),
-            Food(++id, "Peanut Butter", 588f, 25.1f, 20.0f, 50.0f, 6.0f),
+            Food(++id, "Apple", 0.52f, 0.026f, 13.8f, 0.017f, 0.028f),
+            Food(++id, "Chicken Breast", 1.65f, 0.31f, 0f, 0.036f, 0f),
+            Food(++id, "Peanut Butter", 5.88f, 0.25f, 0.22f, 0.5f, 0.08f),
         )
     }
     fun getFood(id: Int) = foods.first { it.id == id }
@@ -44,9 +44,9 @@ object SampleData {
     val servingAmounts by lazy {
         var id = 0
         listOf(
-            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 1f),
-            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 1f),
-            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 1f),
+            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 100f),
+            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 100f),
+            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 100f),
         )
     }
     fun getServingAmount(id: Int) = servingAmounts.first { it.id == id }

@@ -21,7 +21,7 @@ fun PgNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.DayRoute.routeWithArgs
+        startDestination = NavRoute.HomeRoute.name
     ) {
         composable(route = NavRoute.HomeRoute.name) {
             HomeScreen(drawerState = drawerState)

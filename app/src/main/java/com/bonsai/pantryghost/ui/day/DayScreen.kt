@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.DrawerState
@@ -26,6 +27,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import com.bonsai.pantryghost.NavRoute
 import com.bonsai.pantryghost.data.SampleRepository
+import com.bonsai.pantryghost.ui.common.FabParams
 import com.bonsai.pantryghost.ui.common.PgIconButton
 import com.bonsai.pantryghost.ui.common.PgScaffold
 import com.bonsai.pantryghost.utils.gapMedium
@@ -45,6 +47,11 @@ fun DayScreen(
         modifier = modifier,
         drawerState = drawerState,
         title = "Day", // TODO: display "Today" or "Yesterday" based on time
+        fabParams = FabParams(
+            icon = Icons.Filled.Add,
+            onClick = { },
+            contentDescription = "Add serving",
+        ),
     ) {
         // TODO: display aggregate nutritional information
         LazyColumn(
@@ -94,7 +101,13 @@ fun MealCard(
                 }
             }
             mealUiState.servings.forEach {
-                Text(text = it.foodName)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(text = it.foodName)
+                    Text(text = it.calories.toInt().toString())
+                }
             }
         }
     }

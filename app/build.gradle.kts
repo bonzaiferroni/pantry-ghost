@@ -85,6 +85,13 @@ dependencies {
     implementation(libs.numberpicker)
     // coroutine tests
     testImplementation(libs.kotlinx.coroutines.test)
+    // camera
+    val camerax_version = "1.3.0-rc01"
+    implementation("androidx.camera:camera-camera2:$camerax_version")
+    implementation("androidx.camera:camera-lifecycle:$camerax_version")
+    implementation("androidx.camera:camera-view:$camerax_version")
+    // implementation("androidx.camera:camera-extension:$camerax_version")
+    implementation("com.google.accompanist:accompanist-permissions:0.33.1-alpha")
 }
 
 // Allow references to generated code
