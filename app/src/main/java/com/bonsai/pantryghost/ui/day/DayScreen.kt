@@ -79,8 +79,7 @@ fun MealCard(
             ) {
                 Text(
                     text = mealUiState.meal.mealTypeName,
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleMedium,
                 )

@@ -24,6 +24,7 @@ interface DataRepository {
     fun getMealTimeById(id: Int): Flow<MealTime>
     fun getMealTimesOnDate(date: LocalDate): Flow<List<MealTime>>
     suspend fun insertMealTime(mealTime: MealTime): Int
+    suspend fun insertMealTimes(sampleMealTimes: List<MealTime>)
     suspend fun updateMealTime(mealTime: MealTime)
 
     // meal type

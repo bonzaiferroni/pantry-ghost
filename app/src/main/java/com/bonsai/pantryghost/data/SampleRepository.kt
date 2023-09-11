@@ -33,6 +33,10 @@ class SampleRepository : DataRepository {
     }
 
     override suspend fun insertMealTime(mealTime: MealTime): Int = TODO("Not yet implemented")
+    override suspend fun insertMealTimes(sampleMealTimes: List<MealTime>) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun updateMealTime(mealTime: MealTime) = TODO("Not yet implemented")
 
     // meal type

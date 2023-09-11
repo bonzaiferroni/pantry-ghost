@@ -44,6 +44,9 @@ class DaoRepository(
     override suspend fun insertMealTime(mealTime: MealTime): Int =
         mealTimeDao.insert(mealTime).toInt()
 
+    override suspend fun insertMealTimes(sampleMealTimes: List<MealTime>) =
+        mealTimeDao.insertAll(sampleMealTimes)
+
     override suspend fun updateMealTime(mealTime: MealTime) = mealTimeDao.update(mealTime)
 
     // meal type

@@ -8,6 +8,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.bonsai.pantryghost.ui.day.DayScreen
 import com.bonsai.pantryghost.ui.food.EditFoodScreen
 import com.bonsai.pantryghost.ui.food.FoodScreen
 import com.bonsai.pantryghost.ui.home.HomeScreen
@@ -20,7 +21,7 @@ fun PgNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.HomeRoute.name
+        startDestination = NavRoute.DayRoute.routeWithArgs
     ) {
         composable(route = NavRoute.HomeRoute.name) {
             HomeScreen(drawerState = drawerState)
@@ -33,6 +34,12 @@ fun PgNavHost(
             arguments = NavRoute.EditFoodRoute.argList
         ) {
             EditFoodScreen(drawerState = drawerState, navController = navController)
+        }
+        composable(
+            route = NavRoute.DayRoute.routeWithArgs,
+            arguments = NavRoute.DayRoute.argList
+        ) {
+            DayScreen(drawerState = drawerState, navController = navController)
         }
     }
 }
@@ -55,9 +62,17 @@ sealed interface NavRoute {
         val argList = listOf(idNavArg)
     }
 
+    data object DayRoute : NavRoute {
+        override val name = "day"
+        val routeWithArgs = "${name}/{$dateArg}"
+        val argList = listOf(dateNavArg)
+    }
+
     companion object {
         const val dateArg = "date"
-        val dateNavArg = navArgument(dateArg) { type = NavType.StringType }
+        val dateNavArg = navArgument(dateArg) {
+            type = NavType.StringType; defaultValue = LocalDate.now().toString()
+        }
 
         const val idArg = "id"
         val idNavArg = navArgument(idArg) { type = NavType.IntType }
@@ -71,12 +86,12 @@ fun NavHostController.navigateRoute(navRoute: NavRoute, idArg: Int? = null) {
 }
 
 fun NavHostController.navigateRoute(navRoute: NavRoute, localDate: LocalDate) {
-    val route = "${navRoute.name}/$localDate}"
+    val route = "${navRoute.name}/$localDate"
     this.navigate(route)
 }
 
 fun SavedStateHandle.getLocalDate(): LocalDate {
-    val dateString = checkNotNull(this.get<String>(NavRoute.dateArg))
+    val dateString: String = checkNotNull(this[NavRoute.dateArg])
     return LocalDate.parse(dateString)
 }
 

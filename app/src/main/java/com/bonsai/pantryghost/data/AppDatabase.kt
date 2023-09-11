@@ -18,7 +18,7 @@ import com.bonsai.pantryghost.model.ServingAmount
     entities = [
         Food::class, ServingAmount::class, MealTime::class, MealType::class,
     ],
-    version = 2
+    version = 3
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
