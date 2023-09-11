@@ -1,41 +1,28 @@
 package com.bonsai.pantryghost.data.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
 import com.bonsai.pantryghost.model.Serving
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface ServingDao {
-    @Query("SELECT * FROM serving")
-    fun getAll(): Flow<List<Serving>>
-
-    @Query("SELECT * FROM serving WHERE id = :id")
-    fun getById(id: Int): Flow<Serving>
-
-    @Query("SELECT * FROM serving WHERE meal_id = :id")
-    fun getByMealId(id: Int): Flow<List<Serving>>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(serving: Serving): Long
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(servings: List<Serving>)
-
-    @Update
-    suspend fun update(serving: Serving)
-
-    @Update
-    suspend fun updateAll(servings: List<Serving>)
-
-    @Delete
-    suspend fun delete(serving: Serving)
-
-    @Query("DELETE FROM serving")
-    suspend fun deleteAll()
+    @Query("""
+        SELECT 
+            food.id AS foodId, 
+            serving_amount.id AS servingId,
+            serving_amount.meal_time_id AS mealTimeId,
+            food.name AS foodName,
+            serving_amount.grams,
+            food.calories * serving_amount.grams AS calories,
+            food.protein * serving_amount.grams AS protein,
+            food.carbs * serving_amount.grams AS carbs,
+            food.fat * serving_amount.grams AS fat,
+            food.fiber * serving_amount.grams AS fiber
+        FROM food
+        INNER JOIN serving_amount ON food.id = serving_amount.food_id
+        INNER JOIN meal_time ON serving_amount.meal_time_id = meal_time.id
+        WHERE meal_time.time >= :dayStartMillis AND meal_time.time < :dayEndMillis
+        """)
+    fun getServingsOnDate(dayStartMillis: Long, dayEndMillis: Long): Flow<List<Serving>>
 }

@@ -1,9 +1,9 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.model.Food
-import com.bonsai.pantryghost.model.Meal
+import com.bonsai.pantryghost.model.MealTime
 import com.bonsai.pantryghost.model.MealType
-import com.bonsai.pantryghost.model.Serving
+import com.bonsai.pantryghost.model.ServingAmount
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
@@ -30,25 +30,25 @@ object SampleData {
     }
     fun getMealType(id: Int) = mealTypes.first { it.id == id }
 
-    val meals by lazy {
+    val mealTimes by lazy {
         var id = 0
         fun getInstant(hours: Int) = Instant.now().minus(hours.toLong(), ChronoUnit.HOURS)
         listOf(
-            Meal(++id, "apple breakfast", getMealType(id).id, getInstant(id)),
-            Meal(++id, "chicken lunch", getMealType(id).id, getInstant(id)),
-            Meal(++id, "peanut-butter-jelly-time", getMealType(id).id, getInstant(id)),
+            MealTime(++id, getMealType(id).id, getInstant(id)),
+            MealTime(++id, getMealType(id).id, getInstant(id)),
+            MealTime(++id, getMealType(id).id, getInstant(id)),
         )
     }
-    fun getMeal(id: Int) = meals.first { it.id == id }
+    fun getMealTime(id: Int) = mealTimes.first { it.id == id }
 
-    val servings by lazy {
+    val servingAmounts by lazy {
         var id = 0
         listOf(
-            Serving(++id, getMeal(id).id, getFood(id).id, 1f),
-            Serving(++id, getMeal(id).id, getFood(id).id, 1f),
-            Serving(++id, getMeal(id).id, getFood(id).id, 1f),
+            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 1f),
+            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 1f),
+            ServingAmount(++id, getMealTime(id).id, getFood(id).id, 1f),
         )
     }
-    fun getServing(id: Int) = servings.first { it.id == id }
+    fun getServingAmount(id: Int) = servingAmounts.first { it.id == id }
 
 }

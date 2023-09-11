@@ -8,9 +8,7 @@ import java.time.LocalTime
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): Instant? =
-        if (value != null) Instant.ofEpochMilli(value) else {
-            null
-        }
+        if (value != null) Instant.ofEpochMilli(value) else { null }
 
     @TypeConverter
     fun dateToTimestamp(instant: Instant?): Long? = instant?.toEpochMilli()

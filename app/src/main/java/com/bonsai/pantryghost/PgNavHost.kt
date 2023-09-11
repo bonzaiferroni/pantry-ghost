@@ -2,6 +2,7 @@ package com.bonsai.pantryghost
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,8 +11,7 @@ import androidx.navigation.navArgument
 import com.bonsai.pantryghost.ui.food.EditFoodScreen
 import com.bonsai.pantryghost.ui.food.FoodScreen
 import com.bonsai.pantryghost.ui.home.HomeScreen
-import com.bonsai.pantryghost.ui.meal.EditMealScreen
-import com.bonsai.pantryghost.ui.meal.MealScreen
+import java.time.LocalDate
 
 @Composable
 fun PgNavHost(
@@ -20,7 +20,7 @@ fun PgNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.MealRoute.name
+        startDestination = NavRoute.HomeRoute.name
     ) {
         composable(route = NavRoute.HomeRoute.name) {
             HomeScreen(drawerState = drawerState)
@@ -33,15 +33,6 @@ fun PgNavHost(
             arguments = NavRoute.EditFoodRoute.argList
         ) {
             EditFoodScreen(drawerState = drawerState, navController = navController)
-        }
-        composable(route = NavRoute.MealRoute.name) {
-            MealScreen(drawerState = drawerState, navController = navController)
-        }
-        composable(
-            route = NavRoute.EditMealRoute.routeWithArgs,
-            arguments = NavRoute.EditMealRoute.argList
-        ) {
-            EditMealScreen(drawerState = drawerState, navController = navController)
         }
     }
 }
@@ -64,18 +55,11 @@ sealed interface NavRoute {
         val argList = listOf(idNavArg)
     }
 
-    data object MealRoute : NavRoute {
-        override val name = "meal"
-    }
-
-    data object EditMealRoute : NavRoute {
-        override val name = "edit_meal"
-        val routeWithArgs = "${name}/{$idArg}"
-        val argList = listOf(idNavArg)
-    }
-
     companion object {
-        val idArg = "id"
+        const val dateArg = "date"
+        val dateNavArg = navArgument(dateArg) { type = NavType.StringType }
+
+        const val idArg = "id"
         val idNavArg = navArgument(idArg) { type = NavType.IntType }
     }
 }
@@ -84,4 +68,18 @@ sealed interface NavRoute {
 fun NavHostController.navigateRoute(navRoute: NavRoute, idArg: Int? = null) {
     val route = if (idArg != null) "${navRoute.name}/$idArg" else navRoute.name
     this.navigate(route)
+}
+
+fun NavHostController.navigateRoute(navRoute: NavRoute, localDate: LocalDate) {
+    val route = "${navRoute.name}/$localDate}"
+    this.navigate(route)
+}
+
+fun SavedStateHandle.getLocalDate(): LocalDate {
+    val dateString = checkNotNull(this.get<String>(NavRoute.dateArg))
+    return LocalDate.parse(dateString)
+}
+
+fun SavedStateHandle.getId(): Int {
+    return checkNotNull(this.get<Int>(NavRoute.idArg))
 }
