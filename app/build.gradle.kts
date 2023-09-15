@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
@@ -6,6 +9,10 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
 }
+
+val localPropertiesFile: File = rootProject.file("app/local.properties")
+val localProperties = Properties()
+localProperties.load(FileInputStream(localPropertiesFile))
 
 android {
     namespace = "com.bonsai.pantryghost"
@@ -31,6 +38,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "USDA_API_KEY", localProperties["USDA_API_KEY"] as String)
+        }
+        debug {
+            buildConfigField("String", "USDA_API_KEY", localProperties["USDA_API_KEY"] as String)
         }
     }
     compileOptions {
@@ -42,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.2"
@@ -94,6 +106,10 @@ dependencies {
     implementation("androidx.camera:camera-view:$camerax_version")
     // implementation("androidx.camera:camera-extension:$camerax_version")
     implementation("com.google.accompanist:accompanist-permissions:0.33.1-alpha")
+    implementation("com.google.mlkit:barcode-scanning:17.2.0")
+    // retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 }
 
 // Allow references to generated code

@@ -5,11 +5,16 @@ import androidx.room.Room
 import com.bonsai.pantryghost.data.AppDatabase
 import com.bonsai.pantryghost.data.DaoRepository
 import com.bonsai.pantryghost.data.DataRepository
+import com.bonsai.pantryghost.data.usda.UsdaDao
+import com.bonsai.pantryghost.data.usda.UsdaRepository
+import com.bonsai.pantryghost.data.usda.UsdaRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -38,5 +43,18 @@ object PgModule {
             servingDao = appDatabase.servingDao(),
             mealDao = appDatabase.mealDao(),
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideUsdaRepository(): UsdaRepository {
+        val baseUrl = "https://api.nal.usda.gov/fdc/v1/foods/"
+        val retrofit: Retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val usdaDao = retrofit.create(UsdaDao::class.java)
+        return UsdaRetrofit(usdaDao)
     }
 }

@@ -1,7 +1,5 @@
 package com.bonsai.pantryghost
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +11,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
@@ -30,9 +32,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -135,13 +137,13 @@ fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: NavRoute) -> Unit)
             modifier = Modifier.padding(paddingMedium())
         ) {
             Icon(
-                painter = painterResource(id = item.drawableId),
-                contentDescription = stringResource(id = item.descriptionId),
+                imageVector = item.icon,
+                contentDescription = null,
                 modifier = Modifier.size(dimensionResource(R.dimen.icon_size_medium))
             )
             Spacer(modifier = Modifier.width(gapLarge()))
             Text(
-                text = stringResource(id = item.title),
+                text = item.title,
                 style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
             )
@@ -152,9 +154,8 @@ fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: NavRoute) -> Unit)
 // takes in the resources IDs
 data class AppDrawerItemInfo(
     val drawerOption: NavRoute,
-    @StringRes val title: Int,
-    @DrawableRes val drawableId: Int,
-    @StringRes val descriptionId: Int
+    val title: String,
+    val icon: ImageVector,
 )
 
 // list of the buttons
@@ -162,15 +163,18 @@ object DrawerParams {
     val drawerButtons = arrayListOf(
         AppDrawerItemInfo(
             NavRoute.HomeRoute,
-            R.string.drawer_home,
-            R.drawable.ic_launcher_foreground,
-            R.string.drawer_home_description
+            "Home",
+            Icons.Filled.Home,
         ),
         AppDrawerItemInfo(
             NavRoute.FoodRoute,
-            R.string.drawer_food,
-            R.drawable.ic_launcher_foreground,
-            R.string.drawer_home_description
+            "Foods",
+            Icons.Filled.ShoppingCart,
+        ),
+        AppDrawerItemInfo(
+            NavRoute.DayRoute,
+            "Day",
+            Icons.Filled.Favorite,
         ),
     )
 }

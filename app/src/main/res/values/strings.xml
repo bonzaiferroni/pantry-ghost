@@ -4,4 +4,5 @@
     <string name="drawer_home_description">Welcome to the pantry</string>
     <string name="drawer_meal">Meals</string>
     <string name="drawer_food">Foods</string>
+    <string name="drawer_day">Day</string>
 </resources>
