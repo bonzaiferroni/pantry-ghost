@@ -16,6 +16,7 @@ data class UsdaFood (
     @SerializedName("description"            ) var description            : String?          = null,
     @SerializedName("foodCode"               ) var foodCode               : String?          = null,
     @SerializedName("foodNutrients"          ) var foodNutrients          : ArrayList<UsdaNutrient> = arrayListOf(),
+    @SerializedName("foodCategory"           ) var foodCategory           : String?          = null,
     @SerializedName("publicationDate"        ) var publicationDate        : String?          = null,
     @SerializedName("scientificName"         ) var scientificName         : String?          = null,
     @SerializedName("brandOwner"             ) var brandOwner             : String?          = null,
@@ -25,7 +26,7 @@ data class UsdaFood (
     @SerializedName("additionalDescriptions" ) var additionalDescriptions : String?          = null,
     @SerializedName("allHighlightFields"     ) var allHighlightFields     : String?          = null,
     @SerializedName("score"                  ) var score                  : Float?           = null,
-    @SerializedName("servingSize"            ) var servingSize            : Float?             = null,
+    @SerializedName("servingSize"            ) var servingSize            : Float?           = null,
     @SerializedName("servingSizeUnit"        ) var servingSizeUnit        : String?          = null,
 )
 

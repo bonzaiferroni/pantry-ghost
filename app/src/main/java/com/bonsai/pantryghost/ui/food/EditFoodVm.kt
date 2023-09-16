@@ -20,7 +20,6 @@ class EditFoodVm @Inject constructor(
 ) : ViewModel() {
 
     private val foodId: Int = checkNotNull(savedStateHandle[idArg])
-    private var barcode: String? = null
 
     private val _uiState = MutableStateFlow(EditFoodUiState())
     val uiState = _uiState.asStateFlow()
@@ -36,10 +35,10 @@ class EditFoodVm @Inject constructor(
     }
 
     private fun setParams(food: Food? = null) {
-        barcode = food?.barcode
         _uiState.value = uiState.value.copy(
             isNewFood = foodId == 0,
             name = food?.name ?: "",
+            barcode = food?.barcode ?: "",
             calories = food?.calories?.toString() ?: "",
             protein = food?.protein?.toString() ?: "",
             carbs = food?.carbs?.toString() ?: "",
@@ -80,7 +79,8 @@ class EditFoodVm @Inject constructor(
         val food = Food(
             id = foodId,
             name = uiState.value.name,
-            barcode = barcode,
+            barcode = uiState.value.barcode,
+            servingSize = uiState.value.servingSize.toFloat(),
             calories = uiState.value.calories.toFloat(),
             protein = uiState.value.protein.toFloat(),
             carbs = uiState.value.carbs.toFloat(),
@@ -98,7 +98,7 @@ class EditFoodVm @Inject constructor(
 
     fun deleteFood(callback: () -> Unit) {
         viewModelScope.launch {
-            dataRepository.deleteFood(Food(foodId, "", null, 0f, 0f, 0f, 0f, 0f))
+            dataRepository.deleteFood(Food(foodId))
             callback()
         }
     }
@@ -107,6 +107,9 @@ class EditFoodVm @Inject constructor(
 data class EditFoodUiState(
     val isNewFood: Boolean = false,
     val name: String = "",
+    val description: String = "",
+    val barcode: String = "",
+    val servingSize: String = "",
     val calories: String = "",
     val protein: String = "",
     val carbs: String = "",
@@ -115,6 +118,7 @@ data class EditFoodUiState(
 ) {
     val isValid: Boolean
         get() = name.isNotBlank() &&
+                servingSize.isNotBlank() && servingSize.toFloatOrNull() != null &&
                 calories.isNotBlank() && calories.toFloatOrNull() != null &&
                 protein.isNotBlank() && protein.toFloatOrNull() != null &&
                 carbs.isNotBlank() && carbs.toFloatOrNull() != null &&

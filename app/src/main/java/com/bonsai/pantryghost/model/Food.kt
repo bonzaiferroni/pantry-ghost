@@ -6,14 +6,16 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "food")
 data class Food (
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val name: String,
-    val barcode: String?,
-    val calories: Float,
-    val protein: Float,
-    val carbs: Float,
-    val fat: Float,
-    val fiber: Float,
+    val id: Int = 0,
+    val name: String? = null,
+    val description: String? = null,
+    val barcode: String? = null,
+    val servingSize: Float = 0f,
+    val calories: Float = 0f,
+    val protein: Float = 0f,
+    val carbs: Float = 0f,
+    val fat: Float = 0f,
+    val fiber: Float = 0f,
 ) {
-    override fun toString() = name
+    override fun toString() = name ?: description ?: "Food #$id"
 }

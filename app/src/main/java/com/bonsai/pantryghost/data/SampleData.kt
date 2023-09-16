@@ -12,9 +12,9 @@ object SampleData {
     val foods by lazy {
         var id = 0
         listOf(
-            Food(++id, "Apple", null, 0.52f, 0.026f, 13.8f, 0.017f, 0.028f),
-            Food(++id, "Chicken Breast", null, 1.65f, 0.31f, 0f, 0.036f, 0f),
-            Food(++id, "Peanut Butter", null, 5.88f, 0.25f, 0.22f, 0.5f, 0.08f),
+            Food(++id, "Apple", null, null, 50f, 0.52f, 0.026f, 13.8f, 0.017f, 0.028f),
+            Food(++id, "Chicken Breast", null, null, 60f, 1.65f, 0.31f, 0f, 0.036f, 0f),
+            Food(++id, "Peanut Butter", null, null, 32f, 5.88f, 0.25f, 0.22f, 0.5f, 0.08f),
         )
     }
     fun getFood(id: Int) = foods.first { it.id == id }

@@ -58,7 +58,7 @@ fun FoodScreen(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(paddingSmall()),
                     ) {
-                        Text(food.name)
+                        Text(food.toString())
                         Spacer(modifier = Modifier.weight(1f))
                         PgIconButton(
                             icon = Icons.Default.Edit,

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.bonsai.pantryghost.data.DataRepository
 import com.bonsai.pantryghost.data.usda.UsdaRepository
 import com.bonsai.pantryghost.model.Food
+import com.bonsai.pantryghost.model.FoodTagJoin
 import com.google.mlkit.vision.barcode.common.Barcode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,11 +48,15 @@ class ScanFoodVm @Inject constructor(
 
     private fun searchBarcode(barcode: String) {
         viewModelScope.launch {
-            val food = usdaRepository.searchFoodsByBarcode(barcode)
-            if (food != null) {
-                dataRepository.insertFood(food)
+            val foodInfo = usdaRepository.searchFoodsByBarcode(barcode)
+            if (foodInfo != null) {
+                // insert food
+                val foodId = dataRepository.insertFood(foodInfo.food)
+                val tagId: Int = dataRepository.insertFoodTagOrGetId(foodInfo.category)
+                dataRepository.insertFoodTagJoin(FoodTagJoin(foodId, tagId))
+
                 _uiState.value = uiState.value.copy(
-                    newFoods = uiState.value.newFoods + food,
+                    newFoods = uiState.value.newFoods + foodInfo.food,
                 )
             }
         }

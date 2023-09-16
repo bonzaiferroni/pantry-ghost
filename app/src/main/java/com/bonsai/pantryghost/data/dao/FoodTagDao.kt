@@ -3,6 +3,7 @@ package com.bonsai.pantryghost.data.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.bonsai.pantryghost.model.FoodTag
@@ -16,21 +17,24 @@ interface FoodTagDao {
     @Query("SELECT * FROM food_tag WHERE id=:id")
     fun getById(id: Int): Flow<FoodTag>
 
-    @Insert
+    @Query("SELECT * FROM food_tag WHERE food_tag.name=:name")
+    fun getByName(name: String): Flow<FoodTag>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(foodTag: FoodTag): Long
 
-    @Insert
-    suspend fun insertAll(vararg foodTags: FoodTag): Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(foodTags: List<FoodTag>)
 
     @Update
-    suspend fun update(foodTag: FoodTag): Long
+    suspend fun update(foodTag: FoodTag)
 
     @Update
-    suspend fun updateAll(vararg foodTags: FoodTag): Long
+    suspend fun updateAll(foodTags: List<FoodTag>)
 
     @Query("DELETE FROM food_tag")
     suspend fun deleteAll()
 
     @Delete
-    suspend fun deleteById(id: Int)
+    suspend fun deleteById(foodTag: FoodTag)
 }

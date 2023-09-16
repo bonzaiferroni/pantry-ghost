@@ -1,6 +1,7 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.model.Food
+import com.bonsai.pantryghost.model.FoodTagJoin
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealTime
 import com.bonsai.pantryghost.model.MealType
@@ -17,9 +18,7 @@ class SampleRepository : DataRepository {
     // food
     override fun getAllFoods(): Flow<List<Food>> = flowOf(SampleData.foods)
     override fun getFoodById(id: Int): Flow<Food> = flowOf(SampleData.getFood(id))
-    override fun getRecentFoodNames(count: Int): Flow<List<String>> =
-        flowOf(SampleData.foods.map { it.name }.take(count))
-    override suspend fun insertFood(food: Food): Long = TODO("Not yet implemented")
+    override suspend fun insertFood(food: Food): Int = TODO("Not yet implemented")
     override suspend fun updateFood(food: Food) = TODO("Not yet implemented")
     override suspend fun insertFoods(foods: List<Food>) = TODO("Not yet implemented")
     override suspend fun deleteFood(food: Food) = TODO("Not yet implemented")
@@ -78,7 +77,7 @@ class SampleRepository : DataRepository {
                 val food = SampleData.getFood(servingAmount.foodId)
                 Serving(
                     foodId = food.id,
-                    foodName = food.name,
+                    foodName = food.toString(),
                     servingId = servingAmount.id,
                     mealTimeId = servingAmount.mealTimeId,
                     grams = servingAmount.grams,
@@ -91,4 +90,10 @@ class SampleRepository : DataRepository {
             }
         return flowOf(servings)
     }
+
+    override suspend fun insertFoodTagOrGetId(tag: String): Int =
+        TODO("Not yet implemented")
+
+    override suspend fun insertFoodTagJoin(foodTagJoin: FoodTagJoin) =
+        TODO("Not yet implemented")
 }

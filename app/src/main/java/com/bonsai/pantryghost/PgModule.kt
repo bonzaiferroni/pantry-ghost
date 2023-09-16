@@ -42,6 +42,8 @@ object PgModule {
             mealTypeDao = appDatabase.mealTypeDao(),
             servingDao = appDatabase.servingDao(),
             mealDao = appDatabase.mealDao(),
+            foodTagDao = appDatabase.foodTagDao(),
+            foodTagJoinDao = appDatabase.foodTagJoinDao()
         )
     }
 

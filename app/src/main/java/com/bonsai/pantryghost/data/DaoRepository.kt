@@ -9,12 +9,15 @@ import com.bonsai.pantryghost.data.dao.MealTypeDao
 import com.bonsai.pantryghost.data.dao.ServingAmountDao
 import com.bonsai.pantryghost.data.dao.ServingDao
 import com.bonsai.pantryghost.model.Food
+import com.bonsai.pantryghost.model.FoodTag
+import com.bonsai.pantryghost.model.FoodTagJoin
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealTime
 import com.bonsai.pantryghost.model.MealType
 import com.bonsai.pantryghost.model.Serving
 import com.bonsai.pantryghost.model.ServingAmount
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -32,8 +35,7 @@ class DaoRepository(
     // food
     override fun getAllFoods(): Flow<List<Food>> = foodDao.getAll()
     override fun getFoodById(id: Int): Flow<Food> = foodDao.getById(id)
-    override fun getRecentFoodNames(count: Int): Flow<List<String>> = foodDao.getRecentNames(count)
-    override suspend fun insertFood(food: Food) = foodDao.insert(food)
+    override suspend fun insertFood(food: Food) = foodDao.insert(food).toInt()
     override suspend fun updateFood(food: Food) = foodDao.update(food)
     override suspend fun insertFoods(foods: List<Food>) = foodDao.insertAll(foods)
     override suspend fun deleteFood(food: Food) = foodDao.delete(food)
@@ -87,6 +89,14 @@ class DaoRepository(
         val (start, end) = date.toDayBounds()
         return servingDao.getServingsOnDate(start, end)
     }
+
+    // food tag
+    override suspend fun insertFoodTagOrGetId(tag: String): Int =
+        foodTagDao.getByName(tag).firstOrNull()?.id ?:
+        foodTagDao.insert(FoodTag(0, tag)).toInt()
+
+    override suspend fun insertFoodTagJoin(foodTagJoin: FoodTagJoin) =
+        foodTagJoinDao.insert(foodTagJoin)
 }
 
 private data class DayBounds(val start: Long, val end: Long)

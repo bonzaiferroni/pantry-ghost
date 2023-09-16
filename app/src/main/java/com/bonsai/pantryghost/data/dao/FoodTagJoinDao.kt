@@ -2,6 +2,7 @@ package com.bonsai.pantryghost.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.bonsai.pantryghost.model.Food
 import com.bonsai.pantryghost.model.FoodTag
@@ -24,6 +25,6 @@ interface FoodTagJoinDao {
     """)
     fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(foodTagJoin: FoodTagJoin)
 }

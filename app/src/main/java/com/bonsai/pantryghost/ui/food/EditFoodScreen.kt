@@ -44,6 +44,7 @@ fun EditFoodScreen(
             verticalArrangement = Arrangement.spacedBy(gapMedium()),
             modifier = Modifier
                 .padding(paddingSmall())
+                .fillMaxWidth()
                 .weight(1f)
         ) {
             ValueField(
