@@ -1,6 +1,8 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.data.dao.FoodDao
+import com.bonsai.pantryghost.data.dao.FoodTagDao
+import com.bonsai.pantryghost.data.dao.FoodTagJoinDao
 import com.bonsai.pantryghost.data.dao.MealDao
 import com.bonsai.pantryghost.data.dao.MealTimeDao
 import com.bonsai.pantryghost.data.dao.MealTypeDao
@@ -23,6 +25,8 @@ class DaoRepository(
     val mealTypeDao: MealTypeDao,
     val servingDao: ServingDao,
     val mealDao: MealDao,
+    val foodTagDao: FoodTagDao,
+    val foodTagJoinDao: FoodTagJoinDao
 ) : DataRepository {
 
     // food
