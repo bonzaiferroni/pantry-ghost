@@ -24,8 +24,8 @@ data class UsdaFood (
     @SerializedName("ndbNumber"              ) var ndbNumber              : Int?             = null,
     @SerializedName("additionalDescriptions" ) var additionalDescriptions : String?          = null,
     @SerializedName("allHighlightFields"     ) var allHighlightFields     : String?          = null,
-    @SerializedName("score"                  ) var score                  : Int?             = null,
-    @SerializedName("servingSize"            ) var servingSize            : Int?             = null,
+    @SerializedName("score"                  ) var score                  : Float?           = null,
+    @SerializedName("servingSize"            ) var servingSize            : Float?             = null,
     @SerializedName("servingSizeUnit"        ) var servingSizeUnit        : String?          = null,
 )
 

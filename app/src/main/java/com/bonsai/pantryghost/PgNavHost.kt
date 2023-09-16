@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.bonsai.pantryghost.ui.day.DayScreen
 import com.bonsai.pantryghost.ui.food.EditFoodScreen
 import com.bonsai.pantryghost.ui.food.FoodScreen
+import com.bonsai.pantryghost.ui.food.ScanFoodScreen
 import com.bonsai.pantryghost.ui.home.HomeScreen
 import java.time.LocalDate
 
@@ -21,7 +22,7 @@ fun PgNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavRoute.HomeRoute.name
+        startDestination = NavRoute.FoodRoute.name
     ) {
         composable(route = NavRoute.HomeRoute.name) {
             HomeScreen(drawerState = drawerState)
@@ -40,6 +41,9 @@ fun PgNavHost(
             arguments = NavRoute.DayRoute.argList
         ) {
             DayScreen(drawerState = drawerState, navController = navController)
+        }
+        composable(route = NavRoute.ScanFoodRoute.name) {
+            ScanFoodScreen(drawerState = drawerState)
         }
     }
 }
@@ -66,6 +70,10 @@ sealed interface NavRoute {
         override val name = "day"
         val routeWithArgs = "${name}/{$dateArg}"
         val argList = listOf(dateNavArg)
+    }
+
+    data object ScanFoodRoute : NavRoute {
+        override val name = "scan_food"
     }
 
     companion object {

@@ -8,6 +8,7 @@ data class Food (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val name: String,
+    val barcode: String?,
     val calories: Float,
     val protein: Float,
     val carbs: Float,

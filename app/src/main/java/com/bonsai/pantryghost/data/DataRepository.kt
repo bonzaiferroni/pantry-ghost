@@ -18,6 +18,7 @@ interface DataRepository {
     suspend fun insertFood(food: Food): Long
     suspend fun updateFood(food: Food)
     suspend fun insertFoods(foods: List<Food>)
+    suspend fun deleteFood(food: Food)
 
     // meal time
     fun getAllMealTimes(): Flow<List<MealTime>>
@@ -42,6 +43,6 @@ interface DataRepository {
     // meal
     fun getMealsOnDate(date: LocalDate): Flow<List<Meal>>
 
-    // food
+    // serving
     fun getServingsOnDate(date: LocalDate): Flow<List<Serving>>
 }

@@ -2,7 +2,6 @@ package com.bonsai.pantryghost.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -21,11 +20,12 @@ fun AcceptCancelButtons(
     enabled: Boolean,
     onAccept: () -> Unit,
     onCancel: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.gap_medium)),
-        modifier = Modifier.padding(dimensionResource(R.dimen.padding_small))
+        modifier = modifier
     ) {
         Button(
             onClick = onCancel,

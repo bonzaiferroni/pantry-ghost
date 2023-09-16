@@ -22,6 +22,7 @@ class SampleRepository : DataRepository {
     override suspend fun insertFood(food: Food): Long = TODO("Not yet implemented")
     override suspend fun updateFood(food: Food) = TODO("Not yet implemented")
     override suspend fun insertFoods(foods: List<Food>) = TODO("Not yet implemented")
+    override suspend fun deleteFood(food: Food) = TODO("Not yet implemented")
 
     // meal time
     override fun getAllMealTimes(): Flow<List<MealTime>> = flowOf(SampleData.mealTimes)

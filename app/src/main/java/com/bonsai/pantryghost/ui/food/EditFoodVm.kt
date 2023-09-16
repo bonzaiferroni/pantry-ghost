@@ -20,6 +20,7 @@ class EditFoodVm @Inject constructor(
 ) : ViewModel() {
 
     private val foodId: Int = checkNotNull(savedStateHandle[idArg])
+    private var barcode: String? = null
 
     private val _uiState = MutableStateFlow(EditFoodUiState())
     val uiState = _uiState.asStateFlow()
@@ -35,7 +36,9 @@ class EditFoodVm @Inject constructor(
     }
 
     private fun setParams(food: Food? = null) {
+        barcode = food?.barcode
         _uiState.value = uiState.value.copy(
+            isNewFood = foodId == 0,
             name = food?.name ?: "",
             calories = food?.calories?.toString() ?: "",
             protein = food?.protein?.toString() ?: "",
@@ -77,6 +80,7 @@ class EditFoodVm @Inject constructor(
         val food = Food(
             id = foodId,
             name = uiState.value.name,
+            barcode = barcode,
             calories = uiState.value.calories.toFloat(),
             protein = uiState.value.protein.toFloat(),
             carbs = uiState.value.carbs.toFloat(),
@@ -91,9 +95,17 @@ class EditFoodVm @Inject constructor(
             }
         }
     }
+
+    fun deleteFood(callback: () -> Unit) {
+        viewModelScope.launch {
+            dataRepository.deleteFood(Food(foodId, "", null, 0f, 0f, 0f, 0f, 0f))
+            callback()
+        }
+    }
 }
 
 data class EditFoodUiState(
+    val isNewFood: Boolean = false,
     val name: String = "",
     val calories: String = "",
     val protein: String = "",

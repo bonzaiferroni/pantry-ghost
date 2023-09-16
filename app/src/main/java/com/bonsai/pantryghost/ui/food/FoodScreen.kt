@@ -43,7 +43,8 @@ fun FoodScreen(
         title = "Food",
         drawerState = drawerState,
         fabParams = FabParams(Icons.Filled.Add, "Add food") {
-            navController?.navigateRoute(NavRoute.EditFoodRoute, 0)
+            // navController?.navigateRoute(NavRoute.EditFoodRoute, 0)
+            navController?.navigateRoute(NavRoute.ScanFoodRoute)
         },
         modifier = modifier
     ) {

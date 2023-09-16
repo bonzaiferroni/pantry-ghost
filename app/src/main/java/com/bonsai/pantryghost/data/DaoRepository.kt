@@ -32,6 +32,7 @@ class DaoRepository(
     override suspend fun insertFood(food: Food) = foodDao.insert(food)
     override suspend fun updateFood(food: Food) = foodDao.update(food)
     override suspend fun insertFoods(foods: List<Food>) = foodDao.insertAll(foods)
+    override suspend fun deleteFood(food: Food) = foodDao.delete(food)
 
     // meal time
     override fun getAllMealTimes(): Flow<List<MealTime>> = mealTimeDao.getAll()
