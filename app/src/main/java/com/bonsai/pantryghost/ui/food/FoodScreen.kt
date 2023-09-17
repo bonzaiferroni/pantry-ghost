@@ -26,9 +26,8 @@ import com.bonsai.pantryghost.navigateRoute
 import com.bonsai.pantryghost.ui.common.FabParams
 import com.bonsai.pantryghost.ui.common.PgIconButton
 import com.bonsai.pantryghost.ui.common.PgScaffold
-import com.bonsai.pantryghost.utils.gapMedium
-import com.bonsai.pantryghost.utils.paddingMedium
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Gaps
+import com.bonsai.pantryghost.utils.Paddings
 
 @Composable
 fun FoodScreen(
@@ -49,14 +48,14 @@ fun FoodScreen(
         modifier = modifier
     ) {
         LazyColumn(
-            modifier = Modifier.padding(paddingMedium()),
-            verticalArrangement = Arrangement.spacedBy(gapMedium())
+            modifier = Modifier.padding(Paddings.medium()),
+            verticalArrangement = Arrangement.spacedBy(Gaps.medium())
         ) {
             items(uiState.foods) { food ->
                 Card() {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(paddingSmall()),
+                        modifier = Modifier.padding(Paddings.small()),
                     ) {
                         Text(food.toString())
                         Spacer(modifier = Modifier.weight(1f))

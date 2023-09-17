@@ -12,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.dimensionResource
-import com.bonsai.pantryghost.R
+import com.bonsai.pantryghost.utils.Gaps
 
 @Composable
 fun AcceptCancelButtons(
@@ -24,7 +23,7 @@ fun AcceptCancelButtons(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.gap_medium)),
+        horizontalArrangement = Arrangement.spacedBy(Gaps.large()),
         modifier = modifier
     ) {
         Button(

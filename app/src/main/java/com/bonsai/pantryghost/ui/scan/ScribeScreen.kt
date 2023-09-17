@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.bonsai.pantryghost.utils.gapMedium
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Gaps
+import com.bonsai.pantryghost.utils.Paddings
 
 @Composable
 fun ScribeScreen(
@@ -25,8 +25,8 @@ fun ScribeScreen(
 
     Column(
         modifier = modifier
-            .padding(paddingSmall()),
-        verticalArrangement = Arrangement.spacedBy(gapMedium())
+            .padding(Paddings.small()),
+        verticalArrangement = Arrangement.spacedBy(Gaps.medium())
     ) {
         TextRecognitionView(
             context = LocalContext.current,

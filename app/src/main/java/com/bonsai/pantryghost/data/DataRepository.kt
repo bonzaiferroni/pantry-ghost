@@ -1,6 +1,7 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.model.Food
+import com.bonsai.pantryghost.model.FoodTag
 import com.bonsai.pantryghost.model.FoodTagJoin
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealTime
@@ -47,6 +48,9 @@ interface DataRepository {
     fun getServingsOnDate(date: LocalDate): Flow<List<Serving>>
 
     // food tag
+    fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>>
     suspend fun insertFoodTagOrGetId(tag: String): Int
     suspend fun insertFoodTagJoin(foodTagJoin: FoodTagJoin)
+    suspend fun addTagToFood(foodId: Int, tagName: String)
+    suspend fun removeTagFromFood(foodId: Int, tagId: Int)
 }

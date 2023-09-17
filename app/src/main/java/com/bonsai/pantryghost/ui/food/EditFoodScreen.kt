@@ -35,9 +35,10 @@ import com.bonsai.pantryghost.NavRoute.Companion.idArg
 import com.bonsai.pantryghost.data.SampleRepository
 import com.bonsai.pantryghost.ui.common.AcceptCancelButtons
 import com.bonsai.pantryghost.ui.common.PgScaffold
+import com.bonsai.pantryghost.ui.common.ValueDialog
 import com.bonsai.pantryghost.ui.common.ValueField
-import com.bonsai.pantryghost.utils.gapMedium
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Gaps
+import com.bonsai.pantryghost.utils.Paddings
 
 @Composable
 fun EditFoodScreen(
@@ -55,16 +56,16 @@ fun EditFoodScreen(
         modifier = modifier,
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(gapMedium()),
+            verticalArrangement = Arrangement.spacedBy(Paddings.medium()),
             modifier = Modifier
-                .padding(paddingSmall())
+                .padding(Paddings.small())
                 .fillMaxWidth()
                 .weight(1f)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(gapMedium()),
+                horizontalArrangement = Arrangement.spacedBy(Gaps.medium()),
             ) {
                 ValueField(
                     value = food.name,
@@ -88,11 +89,15 @@ fun EditFoodScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(gapMedium()),
+                horizontalArrangement = Arrangement.spacedBy(Gaps.medium()),
             ) {
-                if (uiState.addingTag) {
-                    // TODO: pop dialog to add tag
-                }
+                ValueDialog(
+                    showDialog = uiState.addingTag,
+                    label = "Add Tag",
+                    value = uiState.newFoodTag,
+                    onDismiss = viewModel::onNewTagDialogDismiss,
+                    onValueChange = viewModel::onNewFoodTagChange,
+                )
                 Box(
                     modifier = Modifier
                         .background(
@@ -100,7 +105,7 @@ fun EditFoodScreen(
                             shape = RoundedCornerShape(40)
                         )
                         .clickable { viewModel.addFoodTag() }
-                        .padding(paddingSmall())
+                        .padding(Paddings.small())
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -113,13 +118,13 @@ fun EditFoodScreen(
                     Box(
                         modifier = Modifier
                             .background(color = Color.LightGray, shape = RoundedCornerShape(40))
-                            .padding(paddingSmall())
+                            .padding(Paddings.small())
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(gapMedium()),
+                            horizontalArrangement = Arrangement.spacedBy(Gaps.medium()),
                         ) {
-                            Text(text = foodTag)
+                            Text(text = foodTag.name)
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = "Remove tag",
@@ -136,7 +141,7 @@ fun EditFoodScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(gapMedium()),
+                horizontalArrangement = Arrangement.spacedBy(Gaps.medium()),
             ) {
                 ValueField(
                     value = food.servingSize,
@@ -154,7 +159,7 @@ fun EditFoodScreen(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(gapMedium()),
+                horizontalArrangement = Arrangement.spacedBy(Gaps.medium()),
             ) {
                 ValueField(
                     value = food.protein,

@@ -37,4 +37,11 @@ interface FoodTagDao {
 
     @Delete
     suspend fun deleteById(foodTag: FoodTag)
+
+    @Query("""
+        DELETE FROM food_tag WHERE id NOT IN (
+            SELECT food_tag_id FROM food_tag_join
+        )
+    """)
+    suspend fun deleteUnusedTags()
 }

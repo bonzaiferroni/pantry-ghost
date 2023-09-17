@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bonsai.pantryghost.ui.common.PgScaffold
 import com.bonsai.pantryghost.ui.scan.BarcodeScannerView
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Paddings
 
 @Composable
 fun ScanFoodScreen (
@@ -29,7 +29,7 @@ fun ScanFoodScreen (
     ) {
         BarcodeScannerView(viewModel::onNewBarcodes)
         LazyColumn(
-            modifier = Modifier.padding(horizontal = paddingSmall()),
+            modifier = Modifier.padding(horizontal = Paddings.small()),
         ) {
             items(uiState.newFoods) { food ->
                 val text = "${food.name}: ${food.calories * 100} cals, " +

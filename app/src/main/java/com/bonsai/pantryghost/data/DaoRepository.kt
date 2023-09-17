@@ -91,12 +91,25 @@ class DaoRepository(
     }
 
     // food tag
+    override fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>> =
+        foodTagJoinDao.getTagsByFoodId(foodId)
+
     override suspend fun insertFoodTagOrGetId(tag: String): Int =
         foodTagDao.getByName(tag).firstOrNull()?.id ?:
         foodTagDao.insert(FoodTag(0, tag)).toInt()
 
     override suspend fun insertFoodTagJoin(foodTagJoin: FoodTagJoin) =
         foodTagJoinDao.insert(foodTagJoin)
+
+    override suspend fun addTagToFood(foodId: Int, tagName: String) {
+        val foodTagId = insertFoodTagOrGetId(tagName)
+        insertFoodTagJoin(FoodTagJoin(foodId, foodTagId))
+    }
+
+    override suspend fun removeTagFromFood(foodId: Int, tagId: Int) {
+        foodTagJoinDao.delete(FoodTagJoin(foodId, tagId))
+        foodTagDao.deleteUnusedTags()
+    }
 }
 
 private data class DayBounds(val start: Long, val end: Long)

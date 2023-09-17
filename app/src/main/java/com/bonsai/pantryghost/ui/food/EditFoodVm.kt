@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bonsai.pantryghost.NavRoute.Companion.idArg
 import com.bonsai.pantryghost.data.DataRepository
 import com.bonsai.pantryghost.model.Food
+import com.bonsai.pantryghost.model.FoodTag
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,12 +27,19 @@ class EditFoodVm @Inject constructor(
 
     private var food: Food
         get() = uiState.value.food
-        set(value) { _uiState.value = uiState.value.copy(food = value) }
+        set(value) {
+            _uiState.value = uiState.value.copy(food = value)
+        }
 
     init {
         viewModelScope.launch {
             val food = dataRepository.getFoodById(foodId).first()
             _uiState.value = uiState.value.copy(food = food)
+        }
+        viewModelScope.launch {
+            dataRepository.getTagsByFoodId(foodId).collect { tags ->
+                _uiState.value = uiState.value.copy(foodTags = tags)
+            }
         }
     }
 
@@ -79,8 +87,10 @@ class EditFoodVm @Inject constructor(
         }
     }
 
-    fun removeFoodTag(foodTag: String) {
-        // TODO: remove food tag
+    fun removeFoodTag(foodTag: FoodTag) {
+        viewModelScope.launch {
+            dataRepository.removeTagFromFood(foodId, foodTag.id)
+        }
     }
 
     fun onServingSizeChange(servingSize: Float) {
@@ -88,18 +98,31 @@ class EditFoodVm @Inject constructor(
     }
 
     fun addFoodTag() {
-        TODO("Not yet implemented")
+        _uiState.value = uiState.value.copy(addingTag = true)
     }
 
     fun onNewFoodTagChange(newFoodTag: String) {
         _uiState.value = uiState.value.copy(newFoodTag = newFoodTag)
     }
+
+    fun onNewTagDialogDismiss(isAccepted: Boolean) {
+        _uiState.value = uiState.value.copy(
+            addingTag = false,
+            newFoodTag = "",
+        )
+        val newFoodTag = uiState.value.newFoodTag
+        if (isAccepted && newFoodTag.isNotBlank()) {
+            viewModelScope.launch {
+                dataRepository.addTagToFood(foodId, newFoodTag)
+            }
+        }
+    }
 }
 
 data class EditFoodUiState(
     val food: Food = Food(),
-    val foodTags: List<String> = listOf("tag1", "tag2", "tag3"),
-    val addingTag: Boolean = true,
+    val foodTags: List<FoodTag> = emptyList(),
+    val addingTag: Boolean = false,
     val newFoodTag: String = "",
 ) {
     val isValid: Boolean get() = true

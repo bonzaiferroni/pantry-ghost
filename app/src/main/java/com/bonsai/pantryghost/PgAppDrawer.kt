@@ -38,9 +38,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.bonsai.pantryghost.utils.gapLarge
-import com.bonsai.pantryghost.utils.paddingMedium
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Gaps
+import com.bonsai.pantryghost.utils.Paddings
 import kotlinx.coroutines.launch
 
 @Composable
@@ -92,7 +91,7 @@ fun AppDrawerContent(
                 )
                 // column of options to pick from for user
                 LazyColumn(
-                    modifier = Modifier.padding(horizontal = paddingSmall()),
+                    modifier = Modifier.padding(horizontal = Paddings.small()),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // generates on demand the required composables
@@ -134,14 +133,14 @@ fun AppDrawerItem(item: AppDrawerItemInfo, onClick: (options: NavRoute) -> Unit)
         Row(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(paddingMedium())
+            modifier = Modifier.padding(Paddings.medium())
         ) {
             Icon(
                 imageVector = item.icon,
                 contentDescription = null,
                 modifier = Modifier.size(dimensionResource(R.dimen.icon_size_medium))
             )
-            Spacer(modifier = Modifier.width(gapLarge()))
+            Spacer(modifier = Modifier.width(Gaps.large()))
             Text(
                 text = item.title,
                 style = MaterialTheme.typography.bodyLarge,

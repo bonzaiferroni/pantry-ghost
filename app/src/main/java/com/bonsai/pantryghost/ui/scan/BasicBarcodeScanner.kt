@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Paddings
 import com.google.mlkit.vision.barcode.common.Barcode
 
 @Composable
@@ -20,7 +20,7 @@ fun BasicBarcodeScanner() {
                 barcodes.add(barcode)
         }
     }
-    LazyColumn(modifier = Modifier.padding(paddingSmall())) {
+    LazyColumn(modifier = Modifier.padding(Paddings.small())) {
         items(barcodes) { barcode ->
             Text(barcode.displayValue ?: "Unknown barcode")
         }

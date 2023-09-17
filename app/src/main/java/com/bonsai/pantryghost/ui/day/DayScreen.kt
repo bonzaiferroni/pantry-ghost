@@ -30,8 +30,8 @@ import com.bonsai.pantryghost.data.SampleRepository
 import com.bonsai.pantryghost.ui.common.FabParams
 import com.bonsai.pantryghost.ui.common.PgIconButton
 import com.bonsai.pantryghost.ui.common.PgScaffold
-import com.bonsai.pantryghost.utils.gapMedium
-import com.bonsai.pantryghost.utils.paddingSmall
+import com.bonsai.pantryghost.utils.Gaps
+import com.bonsai.pantryghost.utils.Paddings
 import java.time.LocalDate
 
 @Composable
@@ -55,8 +55,8 @@ fun DayScreen(
     ) {
         // TODO: display aggregate nutritional information
         LazyColumn(
-            modifier = Modifier.padding(horizontal = paddingSmall()),
-            verticalArrangement = Arrangement.spacedBy(gapMedium()),
+            modifier = Modifier.padding(horizontal = Paddings.small()),
+            verticalArrangement = Arrangement.spacedBy(Gaps.medium()),
         ) {
             items(uiState.meals) { meal ->
                 MealCard(
@@ -79,7 +79,7 @@ fun MealCard(
         modifier = modifier,
     ) {
         Column(
-            modifier = Modifier.padding(paddingSmall()),
+            modifier = Modifier.padding(Paddings.small()),
         ) {
             Box(
                 contentAlignment = Alignment.Center,

@@ -1,6 +1,7 @@
 package com.bonsai.pantryghost.data
 
 import com.bonsai.pantryghost.model.Food
+import com.bonsai.pantryghost.model.FoodTag
 import com.bonsai.pantryghost.model.FoodTagJoin
 import com.bonsai.pantryghost.model.Meal
 import com.bonsai.pantryghost.model.MealTime
@@ -91,9 +92,22 @@ class SampleRepository : DataRepository {
         return flowOf(servings)
     }
 
+    // food tag
+    override fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun insertFoodTagOrGetId(tag: String): Int =
         TODO("Not yet implemented")
 
     override suspend fun insertFoodTagJoin(foodTagJoin: FoodTagJoin) =
         TODO("Not yet implemented")
+
+    override suspend fun addTagToFood(foodId: Int, tagName: String) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun removeTagFromFood(foodId: Int, tagId: Int) {
+        TODO("Not yet implemented")
+    }
 }
