@@ -24,69 +24,45 @@ class EditFoodVm @Inject constructor(
     private val _uiState = MutableStateFlow(EditFoodUiState())
     val uiState = _uiState.asStateFlow()
 
+    private var food: Food
+        get() = uiState.value.food
+        set(value) { _uiState.value = uiState.value.copy(food = value) }
+
     init {
-        if (foodId == 0) {
-            setParams()
-        }
         viewModelScope.launch {
             val food = dataRepository.getFoodById(foodId).first()
-            setParams(food)
+            _uiState.value = uiState.value.copy(food = food)
         }
-    }
-
-    private fun setParams(food: Food? = null) {
-        _uiState.value = uiState.value.copy(
-            isNewFood = foodId == 0,
-            name = food?.name ?: "",
-            barcode = food?.barcode ?: "",
-            calories = food?.calories?.toString() ?: "",
-            protein = food?.protein?.toString() ?: "",
-            carbs = food?.carbs?.toString() ?: "",
-            fat = food?.fat?.toString() ?: "",
-            fiber = food?.fiber?.toString() ?: "",
-        )
     }
 
     fun onNameChange(name: String) {
-        _uiState.value = uiState.value.copy(name = name)
+        food = food.copy(name = name)
     }
 
-    fun onCaloriesChange(calories: String) {
-        _uiState.value = uiState.value.copy(calories = calories)
+    fun onCaloriesChange(calories: Float) {
+        food = food.copy(calories = calories)
     }
 
-    fun onProteinChange(protein: String) {
-        _uiState.value = uiState.value.copy(protein = protein)
+    fun onProteinChange(protein: Float) {
+        food = food.copy(protein = protein)
     }
 
-    fun onCarbsChange(carbs: String) {
-        _uiState.value = uiState.value.copy(carbs = carbs)
+    fun onCarbsChange(carbs: Float) {
+        food = food.copy(carbs = carbs)
     }
 
-    fun onFatChange(fat: String) {
-        _uiState.value = uiState.value.copy(fat = fat)
+    fun onFatChange(fat: Float) {
+        food = food.copy(fat = fat)
     }
 
-    fun onFiberChange(fiber: String) {
-        _uiState.value = uiState.value.copy(fiber = fiber)
+    fun onFiberChange(fiber: Float) {
+        food = food.copy(fiber = fiber)
     }
 
     fun saveFood() {
         if (!uiState.value.isValid) {
             return
         }
-
-        val food = Food(
-            id = foodId,
-            name = uiState.value.name,
-            barcode = uiState.value.barcode,
-            servingSize = uiState.value.servingSize.toFloat(),
-            calories = uiState.value.calories.toFloat(),
-            protein = uiState.value.protein.toFloat(),
-            carbs = uiState.value.carbs.toFloat(),
-            fat = uiState.value.fat.toFloat(),
-            fiber = uiState.value.fiber.toFloat(),
-        )
         viewModelScope.launch {
             if (foodId == 0) {
                 dataRepository.insertFood(food)
@@ -102,26 +78,30 @@ class EditFoodVm @Inject constructor(
             callback()
         }
     }
+
+    fun removeFoodTag(foodTag: String) {
+        // TODO: remove food tag
+    }
+
+    fun onServingSizeChange(servingSize: Float) {
+        food = food.copy(servingSize = servingSize)
+    }
+
+    fun addFoodTag() {
+        TODO("Not yet implemented")
+    }
+
+    fun onNewFoodTagChange(newFoodTag: String) {
+        _uiState.value = uiState.value.copy(newFoodTag = newFoodTag)
+    }
 }
 
 data class EditFoodUiState(
-    val isNewFood: Boolean = false,
-    val name: String = "",
-    val description: String = "",
-    val barcode: String = "",
-    val servingSize: String = "",
-    val calories: String = "",
-    val protein: String = "",
-    val carbs: String = "",
-    val fat: String = "",
-    val fiber: String = "",
+    val food: Food = Food(),
+    val foodTags: List<String> = listOf("tag1", "tag2", "tag3"),
+    val addingTag: Boolean = true,
+    val newFoodTag: String = "",
 ) {
-    val isValid: Boolean
-        get() = name.isNotBlank() &&
-                servingSize.isNotBlank() && servingSize.toFloatOrNull() != null &&
-                calories.isNotBlank() && calories.toFloatOrNull() != null &&
-                protein.isNotBlank() && protein.toFloatOrNull() != null &&
-                carbs.isNotBlank() && carbs.toFloatOrNull() != null &&
-                fat.isNotBlank() && fat.toFloatOrNull() != null &&
-                fiber.isNotBlank() && fiber.toFloatOrNull() != null
+    val isValid: Boolean get() = true
+    val isNewFood: Boolean get() = food.id == 0
 }
