@@ -1,5 +1,7 @@
 package com.bonsai.pantryghost.ui.day
 
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,6 +19,11 @@ fun AddServingScreen(
         modifier = modifier,
         title = "Add serving",
     ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+        ) {
 
+        }
     }
 }

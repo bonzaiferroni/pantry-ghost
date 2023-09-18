@@ -1,0 +1,23 @@
+Add serving screen:
+| [Food Category]   [Foods]	| 
+| [Scan+]         [manual+]	|
+| -------------------------	|
+| Food info               	|
+| [amount g]	 [last amt] |
+| [cancel]			  [add] |
+
+Edit food screen:
+| [Name]      Barcode    	| ✅
+| Brand description      	| ✅
+| [Add tag] tag tag tag  	| ✅
+| [serv siz]  	 [calories] | ✅
+| [fat]   	[carb]   [prot]	| ✅
+| [etc]   	[etc]     [etc]	| ✅
+|							| ✅
+| [delete]               	| ✅
+| [cancel]         	 [save] | ✅
+
+Gather all nutrients from usda
+Nutrient
+NutrientAmount
+
