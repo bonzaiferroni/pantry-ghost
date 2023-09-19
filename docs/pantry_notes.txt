@@ -1,5 +1,5 @@
 Add serving screen:
-| [Food Category]   [Foods]	| 
+| [Food Category]   [Foods]	|  
 | [Scan+]         [manual+]	|
 | -------------------------	|
 | Food info               	|
@@ -21,3 +21,5 @@ Gather all nutrients from usda
 Nutrient
 NutrientAmount
 
+FoodTagJoiinDao.kt
+Double check the accuracy of the SQL query

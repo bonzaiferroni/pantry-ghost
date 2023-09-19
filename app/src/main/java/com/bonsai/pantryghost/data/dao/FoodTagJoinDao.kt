@@ -26,9 +26,19 @@ interface FoodTagJoinDao {
     """)
     fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>>
 
+    @Query("""
+        SELECT * FROM food INNER JOIN food_tag_join
+        ON food.id=food_tag_join.food_id
+        WHERE food_tag_join.food_tag_id IN (
+            SELECT id FROM food_tag WHERE name=:tagName
+        )
+    """)
+    fun getFoodsByTagName(tagName: String): Flow<List<FoodTag>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(foodTagJoin: FoodTagJoin)
 
     @Delete
     suspend fun delete(foodTagJoin: FoodTagJoin)
+
 }

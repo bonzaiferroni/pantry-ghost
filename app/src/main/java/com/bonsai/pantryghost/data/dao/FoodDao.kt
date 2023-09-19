@@ -21,6 +21,14 @@ interface FoodDao {
             "ORDER BY id DESC LIMIT :count")
     fun getRecentNames(count: Int): Flow<List<String>>
 
+    // get foods by recently added servings
+    @Query("""
+        SELECT * FROM food INNER JOIN serving_amount
+        ON food.id=serving_amount.food_id
+        ORDER BY serving_amount.id DESC LIMIT :count
+    """)
+    fun getRecentFoods(count: Int): Flow<List<Food>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(food: Food): Long
 

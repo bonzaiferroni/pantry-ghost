@@ -49,8 +49,11 @@ interface DataRepository {
 
     // food tag
     fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>>
+    fun getFoodsByTagName(tagName: String): Flow<List<Food>>
+    fun getRecentlyAddedFoods(): Flow<List<Food>>
     suspend fun insertFoodTagOrGetId(tag: String): Int
     suspend fun insertFoodTagJoin(foodTagJoin: FoodTagJoin)
     suspend fun addTagToFood(foodId: Int, tagName: String)
     suspend fun removeTagFromFood(foodId: Int, tagId: Int)
+
 }

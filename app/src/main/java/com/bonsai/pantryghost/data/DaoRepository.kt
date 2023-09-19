@@ -94,6 +94,10 @@ class DaoRepository(
     override fun getTagsByFoodId(foodId: Int): Flow<List<FoodTag>> =
         foodTagJoinDao.getTagsByFoodId(foodId)
 
+    override fun getFoodsByTagName(tagName: String): Flow<List<Food>> {
+        foodTagJoinDao.getFoodsByTagName(tagName)
+    }
+
     override suspend fun insertFoodTagOrGetId(tag: String): Int =
         foodTagDao.getByName(tag).firstOrNull()?.id ?:
         foodTagDao.insert(FoodTag(0, tag)).toInt()
